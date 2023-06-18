@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('entities', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->string('name');
-            $table->unsignedInteger('price');
+            $table->unsignedBigInteger('price');
             // $table->
             $table->foreignId('city_id');
             $table->foreignId('district_id');

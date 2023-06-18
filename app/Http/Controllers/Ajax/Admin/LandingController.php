@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Ajax\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SetEntity\SetEntityRequest;
 use App\Models\Features\EntityDefinition;
-use Illuminate\Http\Request;
-
 class LandingController extends Controller
 {
     public function setEntity(SetEntityRequest $request)

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('entity_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('entity_id');
+            $table->foreignId('entity_id')->constrained()->onDelete('cascade');
             $table->text('note');
             $table->string('image_url');
             $table->timestamps();

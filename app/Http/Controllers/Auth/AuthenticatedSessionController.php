@@ -36,7 +36,12 @@ class AuthenticatedSessionController extends Controller
         $identifier = $request->user_agent."_".base64_encode(now()->toISOString());
         $email = $request->email;
 
-        $token = $user->createToken($email."_".$identifier)->plainTextToken;
+        if($user->role === 'admin'){
+            $token = $user->createToken($email."_".$identifier,['admin'])->plainTextToken;
+        } else{
+            $token = $user->createToken($email."_".$identifier,['user'])->plainTextToken;
+        }
+        
         return response()->json(['status'=>'success','data'=>['type'=>'Bearer','token'=>$token],"code"=>200]);
     }
 

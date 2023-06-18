@@ -15,6 +15,6 @@ class InfoController extends Controller
         $data = [
             'entity_definition' => EntityDefinition::get()->first()
         ];
-        return new ApiResource($data, ['user' => User::find(auth()->user()->id)->first(['id', 'name', 'email'])]);
+        return new ApiResource($data, ['user' => User::find(auth()->user()->id)->first(['id', 'name', 'email','role'])]);
     }
 }

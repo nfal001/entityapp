@@ -19,6 +19,14 @@ class ApiResource extends JsonResource
         $this->message = $message;
         $this->data = $data;
     }
+
+    function onSuccess() {
+        return [
+            'status' => 200,
+            'data' =>  $this->data,
+            'message' => $this->message
+        ];
+    }
     /**
      * Transform the resource into an array.
      *
@@ -26,6 +34,7 @@ class ApiResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        
         return array_merge([
             'status' => 200,
             'data' =>  $this->data,
