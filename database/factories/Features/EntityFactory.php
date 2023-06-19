@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class UserInfoFactory extends Factory
+class EntityFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,9 +17,7 @@ class UserInfoFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name'=> fake()->firstName(),
-            'last_name'=>fake()->lastName(),
-            'phone'=>fake()->e164PhoneNumber() 
+            //
         ];
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     use ApiHelpers;
+
     /**
      * Display a listing of the resource.
      */

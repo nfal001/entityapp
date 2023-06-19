@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('city_id');
             // $table->foreignId('province_id'); // ?
-            // $table->timestamps();
+            $table->timestamps();
         });
     }
 

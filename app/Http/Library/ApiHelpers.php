@@ -45,7 +45,7 @@ trait ApiHelpers
 
     function succeed(int $code, string $message):JsonResponse {
         return response()->json([
-            'success'=>false,
+            'success'=>true,
             'message' => $message,
             'status' => $code,
         ], $code); 

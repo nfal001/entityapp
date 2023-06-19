@@ -17,8 +17,8 @@ Route::prefix('api/v1/sessions')->middleware('entity.is_defined')->as('api.v1.se
         ->middleware('auth')
         ->name('spa.revoke');
 
-    Route::post('bearer/new',[AuthenticatedSessionController::class,'generateBearerToken'])->name('bearertoken.generate');
-    Route::delete('bearer',[AuthenticatedSessionController::class,'revokeBearerToken'])->middleware('auth:sanctum')->name('bearertoken.revoke');
+    Route::post('bearer/new', [AuthenticatedSessionController::class, 'generateBearerToken'])->name('bearertoken.generate');
+    Route::delete('bearer', [AuthenticatedSessionController::class, 'revokeBearerToken'])->middleware('auth:sanctum')->name('bearertoken.revoke');
 });
 
 
