@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Geo;
 
 use App\Http\Controllers\Controller;
+use App\Http\Library\ApiHelpers;
+use App\Http\Requests\Geo\ProvinceRequest;
 use App\Models\Geo\Province;
 use Illuminate\Http\Request;
 
 class ProvinceController extends Controller
 {
+    use ApiHelpers;
     /**
      * Display a listing of the resource.
      */
@@ -16,44 +19,32 @@ class ProvinceController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProvinceRequest $request)
     {
-        //
+        $province = Province::create(['name'=> $request->name]);
+        return $this->onSuccess($province,'Province Added');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Province $province)
-    {
+    // public function show(Province $province)
+    // {
         //
-    }
+    // }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Province $province)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Province $province)
+    public function update(ProvinceRequest $request, Province $province)
     {
-        //
+        $patchedProvince = $province->update(['name'=> $request->name]);
+        return $this->onSuccess($patchedProvince,'Province Updated');
     }
 
     /**
@@ -61,6 +52,6 @@ class ProvinceController extends Controller
      */
     public function destroy(Province $province)
     {
-        //
+        $province->delete();
     }
 }
