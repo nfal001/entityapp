@@ -11,12 +11,14 @@ use Illuminate\Http\Request;
 class ProvinceController extends Controller
 {
     use ApiHelpers;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $province = Province::all();
+        return; // province class all or paginated
     }
 
 
@@ -53,5 +55,6 @@ class ProvinceController extends Controller
     public function destroy(Province $province)
     {
         $province->delete();
+        return $this->succeed(200,'Province Deleted');
     }
 }

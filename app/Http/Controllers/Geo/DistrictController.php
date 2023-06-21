@@ -12,18 +12,18 @@ class DistrictController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $province,string $city)
     {
-        //
+        // 
     }
 
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(DistrictRequest $request)
+    public function store(DistrictRequest $request,string $province)
     {
-        //
+        // 
     }
 
     /**
@@ -37,7 +37,7 @@ class DistrictController extends Controller
         /**
      * Update the specified resource in storage.
      */
-    public function update(DistrictRequest $request, string $city)
+    public function update(DistrictRequest $request, string $province ,string $city,string $district)
     {
         //
     }
@@ -46,7 +46,7 @@ class DistrictController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $district)
+    public function destroy(string $district, string $province,string $city)
     {
         //
     }

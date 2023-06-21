@@ -17,6 +17,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         // Route::get('transactions')->name('transaction');
 
         Route::prefix('geo')->as('geo.')->group(function () {
+            
             Route::get('/provinces',[ProvinceController::class,'index'])->name('provinces.all');
             Route::post('/provinces',[ProvinceController::class,'store'])->name('provinces.store');
             Route::put('/provinces/{province}',[ProvinceController::class,'update'])->name('provinces.update');

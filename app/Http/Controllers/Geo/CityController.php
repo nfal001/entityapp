@@ -12,7 +12,7 @@ class CityController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $province)
     {
         //
     }
@@ -20,7 +20,7 @@ class CityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CityRequest $request)
+    public function store(string $province,CityRequest $request)
     {
         //
     }
@@ -36,7 +36,7 @@ class CityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CityRequest $request, string $city)
+    public function update(CityRequest $request, string $province,string $city)
     {
         //
     }
@@ -44,7 +44,7 @@ class CityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $city)
+    public function destroy(string $province,string $city)
     {
         //
     }
