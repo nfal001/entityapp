@@ -13,8 +13,8 @@ class District extends Model
         return $this->belongsTo(Province::class);
     }
 
-    public function cities()
+    public function city()
     {
-        return $this->hasMany(City::class);
+        return $this->belongsTo(City::class);
     }
 }

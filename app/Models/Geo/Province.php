@@ -13,8 +13,13 @@ class Province extends Model
     {
         return $this->hasMany(District::class);
     }
+    
     public function cities()
     {
         return $this->hasManyThrough(City::class,District::class);
+    }
+
+    function city() {
+        return $this->hasOne(City::class);
     }
 }

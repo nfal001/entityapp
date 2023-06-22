@@ -17,8 +17,8 @@ class ProvinceController extends Controller
      */
     public function index()
     {
-        $province = Province::all();
-        return; // province class all or paginated
+        $provinces = Province::all();
+        return $this->onSuccess($provinces,'Success Fetching Province',200); // province class all or paginated
     }
 
 
