@@ -23,7 +23,7 @@ class CityRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'province' => 'required|integer'
+            // 'province' => 'required|integer'
         ];
     }
 }

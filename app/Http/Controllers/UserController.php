@@ -22,12 +22,22 @@ class UserController extends Controller
     }
 
     /**
+     * Register new user from guest
+     */
+    // for guest auth
+    function register(Request $request) {
+        return $this->succeed(200,'Account Created');
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
+    // for admin auth
     public function store(Request $request)
     {
         $validated = $request->validated();
-        //
+        // register not done
+
         return $this->succeed(200,'User Created');
     }
 

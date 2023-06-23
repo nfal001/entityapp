@@ -27,7 +27,7 @@ class CityController extends Controller
      */
     public function store(Province $province,CityRequest $request)
     {
-        if (!$createCity = $province->city()->create($request->only(['name']))){
+        if (!$createCity = $province->city()->create(['name'=>$request->safe()->name,'province_id'=>$province])){
             return $this->fail(404,'Unknown Province');  
         }
         return $this->onSuccess($createCity,'City Added',200);
@@ -44,7 +44,7 @@ class CityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CityRequest $request, string $province,string $city)
+    public function update(CityRequest $request, Province $province,City $city)
     {
         if(!$city = City::find($city)->update(['name'=>$request->name])){
             return $this->fail(404,'City Not Found');  

@@ -51,4 +51,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserInfo::class);
     }
+    function createInfo(array $data) {
+        return $this->userInfo()->create($data);
+    }
 }

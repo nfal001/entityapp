@@ -9,16 +9,17 @@ class Province extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name'];
+
     public function districts()
     {
-        return $this->hasMany(District::class);
-    }
-    
-    public function cities()
-    {
-        return $this->hasManyThrough(City::class,District::class);
+        return $this->hasManyThrough(District::class,City::class);
     }
 
+    function cities() {
+        return $this->hasMany(City::class);
+    }
+    
     function city() {
         return $this->hasOne(City::class);
     }

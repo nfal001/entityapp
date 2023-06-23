@@ -16,7 +16,8 @@ class EnsureEntityIsDefined
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (EntityDefinition::all()->isEmpty() && auth()->user()->role !== 'admin') {
+        // return response()->json(auth()->user());
+        if (EntityDefinition::all()->isEmpty() && !auth()->user()->role === 'admin') {
             $request->user()->currentAccessToken()->delete();
             return response()->json(['success'=>false,'message' => "api server aren't ready, Contact Admin",'status'=>503], 503);
         }

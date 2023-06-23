@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_info_id');
-            $table->string('addr_name');
+            $table->string('addr_name')->default("default");
             $table->text('address_full');
-            $table->string('address_lat_long');
+            $table->string('address_lat_long')->nullable();
             $table->string('postal_code');
             $table->string('receiver_name');
             $table->string('phone');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('district_id');
             $table->foreignId('city_id');
             $table->foreignId('province_id');
-            $table->boolean('is_choosen_address');
+            $table->boolean('is_choosen_address')->default(false);
             $table->text('address_note')->nullable();
             $table->timestamps();
         });

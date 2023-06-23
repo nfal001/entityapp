@@ -16,7 +16,7 @@ class EntityController extends Controller
      */
     public function index()
     {
-        $entity = Entity::paginate(10);
+        $entity = Entity::all();
         return new EntityResource($entity);
     }
 
