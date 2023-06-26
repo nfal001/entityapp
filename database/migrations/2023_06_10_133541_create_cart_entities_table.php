@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entity_details', function (Blueprint $table) {
+        Schema::create('cart_entities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('entity_id')->constrained()->onDelete('cascade');
-            $table->text('note');
-            $table->string('hd_image_url');
+            $table->foreignUuid('entity_id');
+            $table->foreignUuid('cart_id');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entity_details');
+        Schema::dropIfExists('cart_entities');
     }
 };

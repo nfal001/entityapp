@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Features\UserInfo;
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,6 +15,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
+    protected $keyType = 'string';
+    protected $incrementing = false;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -51,6 +53,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserInfo::class);
     }
+
     function createInfo(array $data) {
         return $this->userInfo()->create($data);
     }

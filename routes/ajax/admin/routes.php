@@ -13,11 +13,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::middleware(['auth:sanctum','abilities:admin', 'entity.is_defined'])->prefix('manage')->as('manage.')->group(function () {
         Route::apiResource('users',UserController::class);
-        Route::apiResource('entity',EntityController::class);
-        // Route::get('transactions')->name('transaction');
+        Route::apiResource('entities',EntityController::class);
+        Route::apiResource('transactions',CityController::class); // transactions
+        Route::get('transactions/pending',[CityController::class,'getPendingTransactions'])->name('transactions.index.pending');
 
-        Route::prefix('geo')->as('geo.')->group(function () {
-            
+        Route::prefix('geo')->as('geo.')->group(function () { 
             // provinces > cities() > districts()
 
             // Provinces

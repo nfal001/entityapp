@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->enum('status',['active','saved'])->default('active');
             $table->foreignUuid('user_id');
+            $table->foreignUuid('cart_id');
+            $table->string('payment_proof');
+            $table->enum('order_status',['pending','delivering','delivered'])->default('pending');
+            $table->enum('payment_status',['unpaid','paid'])->default('unpaid');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('transactions');
     }
 };

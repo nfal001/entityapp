@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid()->primary();
             $table->string('name');
             $table->unsignedBigInteger('price');
-            // $table->
+            $table->string('image_url')->nullable();
             $table->foreignId('city_id')->nullable();
             $table->foreignId('district_id')->nullable();
             $table->enum('entity_status',['Draft','Out Of Stock','Ready'])->default('Draft');

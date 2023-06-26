@@ -8,6 +8,10 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+
+// prepare . v1/oauth/
+
+
 Route::prefix('api/v1/sessions')->middleware('entity.is_defined')->as('api.v1.sessions.')->group(function () {
     Route::post('/new', [AuthenticatedSessionController::class, 'store'])
         ->middleware('guest')
@@ -22,9 +26,9 @@ Route::prefix('api/v1/sessions')->middleware('entity.is_defined')->as('api.v1.se
 });
 
 
-Route::post('/register', [RegisteredUserController::class, 'store'])
-    ->middleware('guest')
-    ->name('register');
+// Route::post('/register', [RegisteredUserController::class, 'store'])
+//     ->middleware('guest')
+//     ->name('register');
 
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
     ->middleware('guest')

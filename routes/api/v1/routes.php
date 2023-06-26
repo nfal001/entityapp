@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\Features\Action\InfoController;
+use App\Http\Controllers\Features\AddressController;
 use App\Http\Controllers\Features\UserInfoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -10,12 +12,49 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
     Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get('info', [InfoController::class, 'index'])->name('info');
-        Route::get('products')->name('products');
-        Route::get('products/{product}')->name('products.show');
-        Route::get('carts')->name('carts');
 
+        Route::get('entities')->name('entities');
+        Route::get('entities/{entity}')->name('entities.show');
+        
+        Route::get('carts',[CartController::class,'index'])->name('carts');
+        Route::post('carts',[CartController::class,'store'])->name('carts.store');
+        Route::delete('carts',[CartController::class,'store'])->name('carts.destroy');
+
+        Route::get('checkout',[CartController::class,'checkout'])->name('checkout');
+
+        Route::get('transactions')->name('user.transactions');
+        
+        Route::apiResource('addresses',AddressController::class);
+        
         Route::get('profile', [UserInfoController::class, 'profile'])->name('user.profile');
+
     });
 
-    Route::post('users',[UserController::class,'register'])->middleware("guest");
+    Route::post('users',[UserController::class,'register'])->middleware("guest")->name('users.register');
+
+    // 'checkout' - from cart -> transaction
+    // '/transactions' C-R
+    // '/transactions/{id_onlyAuthenticatedUser}' R
+    // '/carts' C-R : Create - add new entity into current active cart
+    // '/carts/{id_onlyAuthenticatedUser}' R
+    // '/addresses' C-R-U-D
+    // '/addresses/{id_onlyAuthenticatedUser}' R
+    // '/'
+
+    /**
+     * 
+     * transactions: authorized_responsibleUserAndAdmin
+     * address: authorized_responsibleUserAndAdmin
+     * 
+     * carts: 
+     * insert into active carts - store function
+     * delete item by id from active carts - destroy function
+     * if carts item === 1
+     * carts userID x where cart_transaction_status pending, 
+     * cart_transaction_status [active,pending],
+     * make sure each user has only one pending carts ; 
+     * list item in table entity_cart (queue)
+     * 
+     * carts can only delete 1 item?
+     */
 });

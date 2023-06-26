@@ -12,6 +12,10 @@ class Entity extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $keyType = 'string';
+    protected $incrementing = false;
+
+
     public function scopeReady()
     {
         return $this->where('entity_status','Ready');

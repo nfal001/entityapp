@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entity_details', function (Blueprint $table) {
+        Schema::create('address_lat_longs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('entity_id')->constrained()->onDelete('cascade');
-            $table->text('note');
-            $table->string('hd_image_url');
+            $table->foreignId('address_id');
+            $table->double('latitude')->nullable();
+            $table->double('longitude')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entity_details');
+        Schema::dropIfExists('address_lat_longs');
     }
 };
