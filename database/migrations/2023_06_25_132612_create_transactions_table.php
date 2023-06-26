@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->foreignUuid('user_id');
+            $table->foreignUuid('user_id')->constrained()->nullOnDelete();
             $table->foreignUuid('cart_id');
             $table->string('payment_proof');
+            $table->foreignId('address_id')->constrained()->nullOnDelete();
             $table->enum('order_status',['pending','delivering','delivered'])->default('pending');
             $table->enum('payment_status',['unpaid','paid'])->default('unpaid');
             $table->timestamps();

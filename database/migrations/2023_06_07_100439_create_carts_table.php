@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->enum('status',['active','saved'])->default('active');
-            $table->foreignUuid('user_id');
+            $table->foreignUuid('user_id')->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

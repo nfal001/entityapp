@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('postal_code');
             $table->string('receiver_name');
             $table->string('phone');
-            $table->string('country');
+            $table->string('country')->nullable();
             $table->foreignId('district_id');
             $table->foreignId('city_id');
             $table->foreignId('province_id');

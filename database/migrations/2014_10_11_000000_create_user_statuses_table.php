@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_statuses', function (Blueprint $table) {
             $table->id();
-            $table->enum('status',['pending','active','suspended']);
+            $table->enum('status',['pending','active','suspended'])->default('pending');
             $table->timestamps();
         });
     }

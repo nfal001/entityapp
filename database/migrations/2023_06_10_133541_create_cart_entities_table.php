@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cart_entities', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('entity_id');
+            $table->foreignUuid('entity_id')->unique();
             $table->foreignUuid('cart_id');
             $table->timestamps();
         });

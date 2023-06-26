@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('city_id')->nullable();
             $table->foreignId('district_id')->nullable();
             $table->enum('entity_status',['Draft','Out Of Stock','Ready'])->default('Draft');
+            $table->foreignUuid('user_id')->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }
