@@ -17,6 +17,10 @@ Route::get('api/', function () {
     return ['status'=>200,'laravel-version' => app()->version(),'api-latest-version'=>config('app.api_latest')];
 });
 
+Route::get('/',function () {
+    return response()->json(['entity'=>true]);
+});
+
 require __DIR__.'/auth.php';
 
 
