@@ -35,7 +35,6 @@ class EntityController extends Controller
             'entity_status' => $validated->status,
             'district_id'=>$validated->district,
         ]);
-
         return new ApiResource($entity,[],'Entity Created');
     }
 
@@ -61,5 +60,19 @@ class EntityController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * List Entity ForUser
+     */
+    public function userIndex() {
+        
+    }
+
+    /**
+     * 
+     */
+    public function userShow(Entity $entity) {
+        
     }
 }

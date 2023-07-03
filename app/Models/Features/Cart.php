@@ -13,4 +13,8 @@ class Cart extends Model
     protected $keyType = 'string';
     protected $incrementing = false;
 
+    
+    function createTransaction() {
+        
+    }
 }

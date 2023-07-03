@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignUuid('cart_id');
             $table->string('payment_proof');
             $table->foreignId('address_id')->constrained()->nullOnDelete();
-            $table->enum('order_status',['pending','delivering','delivered'])->default('pending');
+            $table->enum('order_status',['Pending','Delivering','Delivered'])->default('pending');
+            $table->enum('order_status_message',['Preparing Order','Delivering Your Order','Order Delivered'])->default('Preparing Order');
             $table->enum('payment_status',['unpaid','paid'])->default('unpaid');
             $table->timestamps();
         });

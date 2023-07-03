@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Features\Cart;
 use App\Models\Features\UserInfo;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -56,5 +57,13 @@ class User extends Authenticatable
 
     function createInfo(array $data) {
         return $this->userInfo()->create($data);
+    }
+
+    function transactions() {
+        return $this->hasMany(Transaction::class);
+    }
+
+    function activeCart() {
+        return $this->hasOne(Cart::class)->where('status','active');
     }
 }

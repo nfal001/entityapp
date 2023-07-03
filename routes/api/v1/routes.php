@@ -3,7 +3,9 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Features\Action\InfoController;
 use App\Http\Controllers\Features\AddressController;
+use App\Http\Controllers\Features\EntityController;
 use App\Http\Controllers\Features\UserInfoController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,16 +15,16 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
     Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get('info', [InfoController::class, 'index'])->name('info');
 
-        Route::get('entities')->name('entities');
-        Route::get('entities/{entity}')->name('entities.show');
+        Route::get('entities',[EntityController::class,'index'])->name('entities.index');
+        Route::get('entities/{entity}',[EntityController::class,'show'])->name('entities.show');
         
         Route::get('carts',[CartController::class,'index'])->name('carts');
         Route::post('carts',[CartController::class,'store'])->name('carts.store');
         Route::delete('carts',[CartController::class,'store'])->name('carts.destroy');
 
-        Route::get('checkout',[CartController::class,'checkout'])->name('checkout');
+        Route::get('checkout',[TransactionController::class,'commit'])->name('checkout');
 
-        Route::get('transactions')->name('user.transactions');
+        Route::get('transactions',[TransactionController::class,'userIndex'])->name('user.transactions');
         
         Route::apiResource('addresses',AddressController::class);
         

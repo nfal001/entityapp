@@ -6,6 +6,7 @@ use App\Http\Controllers\Features\EntityController;
 use App\Http\Controllers\Geo\CityController;
 use App\Http\Controllers\Geo\DistrictController;
 use App\Http\Controllers\Geo\ProvinceController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -14,8 +15,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::middleware(['auth:sanctum','abilities:admin', 'entity.is_defined'])->prefix('manage')->as('manage.')->group(function () {
         Route::apiResource('users',UserController::class);
         Route::apiResource('entities',EntityController::class);
-        Route::apiResource('transactions',CityController::class); // transactions
-        Route::get('transactions/pending',[CityController::class,'getPendingTransactions'])->name('transactions.index.pending');
+        Route::apiResource('transactions',TransactionController::class); // transactions
+        Route::get('transactions/pending',[TransactionController::class,'getPendingTransactions'])->name('transactions.index.pending');
 
         Route::prefix('geo')->as('geo.')->group(function () { 
             // provinces > cities() > districts()
