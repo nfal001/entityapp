@@ -3,25 +3,22 @@
 namespace App\Http\Controllers\Features;
 
 use App\Http\Controllers\Controller;
+use App\Http\Library\ApiHelpers;
 use App\Models\Features\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
-{   
-    protected $user;
-
-    public function __construct(User $user)
-    {
-        $this->user =  auth()->user();
-    }
+{
+    use ApiHelpers;
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
+        $addresses = User::find(auth()->user()->id)->addresses()->get();
+        return $this->onSuccess($addresses,'Success Fetch Address',200);
     }
 
     /**

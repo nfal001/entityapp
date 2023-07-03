@@ -64,8 +64,8 @@ class User extends Authenticatable
     /**
      * List Of Address
      */
-    public function addressess() {
-        return $this->hasMany(Address::class);
+    public function addresses() {
+        return $this->hasMany(Address::class,'user_info_id');
     }
 
     /**

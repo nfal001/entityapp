@@ -29,7 +29,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
         Route::apiResource('addresses',AddressController::class);
         
         Route::get('profile', [UserInfoController::class, 'profile'])->name('user.profile');
-
+        Route::get('addresses', [AddressController::class, 'index'])->name('user.addresses');
     });
 
     Route::post('users',[UserController::class,'register'])->middleware("guest")->name('users.register');
