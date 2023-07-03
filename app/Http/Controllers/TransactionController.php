@@ -8,6 +8,26 @@ use Illuminate\Http\Request;
 class TransactionController extends Controller
 {
     /**
+     * admin get pendingTransaction
+     */
+    public function adminGetPendingTransactions() {
+        
+    }
+
+    /**
+     * Display List transaction per user
+     */
+    public function userIndex() {
+        
+    }
+
+    /**
+     * From Update
+     */
+    public function commit() {
+        
+    }
+    /**
      * Display a listing of the resource.
      */
     public function index()
