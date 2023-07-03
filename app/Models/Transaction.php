@@ -13,7 +13,7 @@ class Transaction extends Model
     use HasFactory, HasUuids;
 
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
 
     protected $with = ['user:uuid','cart:uuid','address:id,address_full'];
     

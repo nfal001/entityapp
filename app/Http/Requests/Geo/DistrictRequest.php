@@ -23,7 +23,6 @@ class DistrictRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'city' => 'required|integer'
         ];
     }
 }

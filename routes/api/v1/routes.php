@@ -15,8 +15,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
     Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get('info', [InfoController::class, 'index'])->name('info');
 
-        Route::get('entities',[EntityController::class,'index'])->name('entities.index');
-        Route::get('entities/{entity}',[EntityController::class,'show'])->name('entities.show');
+        Route::get('entities',[EntityController::class,'userIndex'])->name('entities.index');
+        Route::get('entities/{entity}',[EntityController::class,'userShow'])->name('entities.show');
         
         Route::get('carts',[CartController::class,'index'])->name('carts');
         Route::post('carts',[CartController::class,'store'])->name('carts.store');

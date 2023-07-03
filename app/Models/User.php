@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Features\Address;
 use App\Models\Features\Cart;
 use App\Models\Features\UserInfo;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -17,8 +18,9 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
     
+    protected $with = ['userStatus:id,status'];
     /**
      * The attributes that are mass assignable.
      *
@@ -38,6 +40,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'user_status',
+        'updated_at',
     ];
 
     /**
@@ -50,20 +54,53 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * select One Address, then use it to index, update or delete them
+     */
+    public function address() {
+        return $this->hasOne(Address::class);
+    }
+    
+    /**
+     * List Of Address
+     */
+    public function addressess() {
+        return $this->hasMany(Address::class);
+    }
+
+    /**
+     * Select Choosen Address
+     */
+    public function choosenAddress() {
+        return $this->hasOne(Address::class)->where('is_choosen_address',1);
+    }
+
+    /**
+     * Get User Info
+     */
     public function userInfo()
     {
         return $this->hasOne(UserInfo::class);
     }
 
-    function createInfo(array $data) {
-        return $this->userInfo()->create($data);
-    }
-
-    function transactions() {
+    /**
+     * Get Transaction Info
+     */
+    public function transactions() {
         return $this->hasMany(Transaction::class);
     }
 
-    function activeCart() {
+    /**
+     * Get User Active Cart, (can only have one)
+     */
+    public function activeCart() {
         return $this->hasOne(Cart::class)->where('status','active');
+    }
+
+    /**
+     * UserInfo
+     */
+    function userStatus() {
+        return $this->belongsTo(UserStatus::class,'user_status','id');
     }
 }

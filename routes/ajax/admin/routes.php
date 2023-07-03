@@ -40,5 +40,4 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Route::delete('/provinces/{province}/cities/{city}/districts/{district}',[DistrictController::class,'destroy'])->name('provinces.cities.districts.destroy');
         });
     });
-    
 });

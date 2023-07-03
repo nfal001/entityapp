@@ -20,6 +20,6 @@ class City extends Model
         return $this->belongsTo(Province::class);
     }
     function district() {
-        return $this->hasOne(City::class);
+        return $this->hasOne(District::class);
     }
 }

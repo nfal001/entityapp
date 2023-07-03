@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Features;
 
 use App\Http\Controllers\Controller;
+use App\Http\Library\ApiHelpers;
 use App\Http\Requests\Features\EntityRequest;
 use App\Http\Resources\Features\EntityResource;
 use App\Http\Resources\Util\ApiResource;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 
 class EntityController extends Controller
 {
+    use ApiHelpers;
     /**
      * Display a listing of the resource.
      */
@@ -66,7 +68,8 @@ class EntityController extends Controller
      * List Entity ForUser
      */
     public function userIndex() {
-        
+        $entity = Entity::all();
+        return $this->onSuccess($entity,'Success Fetch Entity',200);
     }
 
     /**
