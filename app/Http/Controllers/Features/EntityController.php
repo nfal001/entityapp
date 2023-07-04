@@ -32,23 +32,22 @@ class EntityController extends Controller
         DB::beginTransaction();
 
         try {
-            $entity = collect($request->safe()->except('entity_detail'))->merge('user_id',$request->user()->id);
+            $entity = collect($request->safe()->except('entity_detail'))->merge(['user_id' => $request->user()->id]);
 
             $createdEntity = Entity::create($entity->toArray());
-            
+
             $entityDetail = $request->safe()->entity_detail;
 
             $createdEntity->entityDetail()->create($entityDetail);
-            
-            DB::commit();
 
+            DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             // return $e;
             return $this->fail(400, "Something Wrong, Please Check Your Input Again");
         }
-        
-        return $this->onSuccess($entity,"Successfully create Entity",200);
+
+        return $this->onSuccess($createdEntity, "Successfully create Entity", 200);
     }
 
     /**
@@ -56,6 +55,13 @@ class EntityController extends Controller
      */
     public function show(string $id)
     {
+        $completeEntity = Entity::with('entityDetail')->findOrFail($id);
+
+        if ($completeEntity->user_id !== auth()->user()->id) {
+            return $this->fail(401, "Entity Does not Belong to user");
+        }
+
+        return $this->onSuccess($completeEntity, "Succefully Fetch Entity Detail", 200);
     }
 
     /**
@@ -71,8 +77,12 @@ class EntityController extends Controller
      */
     public function destroy(Entity $entity)
     {
+        if ($entity->user_id !== auth()->user()->id) {
+            return $this->fail(401, "Entity Does not Belong to user");
+        }
+
         $entity->delete();
-        return $this->succeed(200,"Entity Deleted");
+        return $this->succeed(200, "Entity Deleted");
     }
 
     /**
@@ -87,7 +97,14 @@ class EntityController extends Controller
     /**
      * 
      */
-    public function userShow(Entity $entity)
+    public function userShow(string $id)
     {
+        $completeEntity = Entity::with('entityDetail')->findOrFail($id);
+
+        if ($completeEntity->user_id !== auth()->user()->id) {
+            return $this->fail(401, "Entity Does not Belong to user");
+        }
+
+        return $this->onSuccess($completeEntity, "Succefully Fetch Entity Detail", 200);
     }
 }

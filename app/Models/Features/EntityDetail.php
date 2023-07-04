@@ -11,6 +11,7 @@ class EntityDetail extends Model
     use HasFactory;
 
     protected $fillable = ['note','hd_image_url'];
+    protected $hidden = ['created_at','updated_at','id','entity_id'];
 
     public function entity()
     {

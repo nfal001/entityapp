@@ -33,7 +33,7 @@ class Entity extends Model
 
     public function entityDetail()
     {
-        return $this->hasMany(EntityDetail::class,'entity_id');
+        return $this->hasOne(EntityDetail::class,'entity_id');
     }
 
     public function city() {
