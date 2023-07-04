@@ -13,7 +13,7 @@ class UserInfoController extends Controller
 
     public function profile()
     {
-        $data = User::find(auth()->user()->id)->first(['id','name','email','role']);
+        $data = auth('sanctum')->user();
 
         return new ApiResource(['user'=>$data]);
     }

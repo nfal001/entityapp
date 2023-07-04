@@ -21,6 +21,10 @@ class Entity extends Model
     protected $with = ['district:id,name','city:id,name'];
     protected $hidden = ['district_id','city_id','user_id'];
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+    
     public function scopeReady()
     {
         return $this->where('entity_status','Ready');
@@ -38,5 +42,5 @@ class Entity extends Model
     public function district() {
         return $this->belongsTo(District::class);
     }
-    
+
 }

@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $keyType = 'string';
     public $incrementing = false;
     
-    protected $with = ['userStatus:id,status'];
+    // protected $with = ['userStatus:id,status'];
     /**
      * The attributes that are mass assignable.
      *
@@ -58,7 +58,7 @@ class User extends Authenticatable
      * select One Address, then use it to index, update or delete them
      */
     public function address() {
-        return $this->hasOne(Address::class);
+        return $this->hasOne(Address::class,'user_info_id');
     }
     
     /**
@@ -98,9 +98,9 @@ class User extends Authenticatable
     }
 
     /**
-     * UserInfo
+     * UserStatus
      */
-    function userStatus() {
+    public function userStatus() {
         return $this->belongsTo(UserStatus::class,'user_status','id');
     }
 }

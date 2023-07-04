@@ -9,6 +9,8 @@ class UserInfo extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['first_name','last_name','phone'];
+
     public function scopeGetUserAddress()
     {
         return $this->hasMany(Address::class)->where('user_info_id',$this->id);

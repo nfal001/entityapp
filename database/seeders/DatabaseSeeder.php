@@ -16,6 +16,13 @@ class DatabaseSeeder extends Seeder
         \App\Models\UserStatus::factory()->createMany([['status'=>'pending'],['status'=>'active'],['status'=>'suspended']]);
         // \App\Models\User::factory(10)->create();
         
+        // Create Geo
+        $provinces = \App\Models\Geo\Province::factory()->createMany([['name'=>'Jawa Barat'],['name'=>'Jawa Timur'],['name'=>'DI Yogyakarta']])->each(function ($prov) {
+            $prov->city()->createMany([['name'=>fake()->city()],['name'=>fake()->city()]])->each(function ($ci) {
+                $ci->districts()->createMany([['name'=>fake()->firstName()],['name'=>fake()->firstName()]]);
+            });
+        });
+
         $users = \App\Models\User::factory()->createMany([[
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -33,5 +40,6 @@ class DatabaseSeeder extends Seeder
         $users->each(function($user) {
             \App\Models\Features\UserInfo::factory()->createOne(['user_id'=>$user->id,'first_name'=>fake()->firstName(),'last_name'=>fake()->lastName(),'phone'=>'08080808']);
         });
+
     }
 }
