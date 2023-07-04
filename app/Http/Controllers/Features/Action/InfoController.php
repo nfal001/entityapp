@@ -14,5 +14,6 @@ class InfoController extends Controller
             'entity_definition' => EntityDefinition::get()->first()
         ];
         return new ApiResource($data, ['user' => auth()->user()]);
+        // lorem
     }
 }
