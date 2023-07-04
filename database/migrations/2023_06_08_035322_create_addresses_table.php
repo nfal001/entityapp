@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('receiver_name');
             $table->string('phone');
             $table->string('country')->nullable();
-            $table->foreignId('district_id');
-            $table->foreignId('city_id');
-            $table->foreignId('province_id');
+            $table->foreignId('district_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('city_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('province_id')->constrained()->cascadeOnDelete();
             $table->boolean('is_choosen_address')->default(false);
             $table->text('address_note')->nullable();
             $table->timestamps();

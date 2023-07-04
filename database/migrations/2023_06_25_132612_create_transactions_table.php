@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->uuid()->primary();
-            $table->foreignUuid('user_id')->constrained()->nullOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignUuid('cart_id');
             $table->string('payment_proof');
-            $table->foreignId('address_id')->constrained()->nullOnDelete();
+            $table->foreignId('address_id')->nullable()->constrained()->nullOnDelete();
             $table->enum('order_status',['Pending','Delivering','Delivered'])->default('pending');
             $table->enum('order_status_message',['Preparing Order','Delivering Your Order','Order Delivered'])->default('Preparing Order');
             $table->enum('payment_status',['unpaid','paid'])->default('unpaid');

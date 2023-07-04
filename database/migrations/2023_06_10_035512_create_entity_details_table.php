@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('entity_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('entity_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('entity_id')->constrained()->cascadeOnDelete();
             $table->text('note');
             $table->string('hd_image_url');
             $table->timestamps();
