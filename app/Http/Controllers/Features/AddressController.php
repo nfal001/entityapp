@@ -48,6 +48,10 @@ class AddressController extends Controller
      */
     public function destroy(Address $address)
     {
+        if(!$address->user_info_id == auth()->user()->id){
+            return $this->fail(401,"Address Does not Belong to user");
+        }
+
         $address->delete();
         return $this->succeed(200,"Address Deleted");
     }

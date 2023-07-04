@@ -8,7 +8,9 @@ use App\Http\Requests\Features\EntityRequest;
 use App\Http\Resources\Features\EntityResource;
 use App\Http\Resources\Util\ApiResource;
 use App\Models\Entity;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EntityController extends Controller
 {
@@ -27,17 +29,25 @@ class EntityController extends Controller
      */
     public function store(EntityRequest $request)
     {
-        $validated = $request->validated();
+        DB::beginTransaction();
+
+        try {
+            $entity = $request->safe()->except('entity_detail');
+
+            $createdEntity = Entity::create($entity);
+            
+            $entityDetail = $request->safe()->entity_detail;
+
+            $createdEntity->entityDetail()->create($entityDetail);
+            DB::commit();
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $e;
+            return $this->fail(400, "Something Wrong, Please Check Your Input Again");
+        }
         
-        return response()->json($validated);
-        $entity = Entity::create([
-            'name'=>$validated->name,
-            'price'=>$validated->price,
-            'city_id'=>$validated->city,
-            'entity_status' => $validated->status,
-            'district_id'=>$validated->district,
-        ]);
-        return new ApiResource($entity,[],'Entity Created');
+        return $this->onSuccess($entity,"Successfully create Entity",200);
     }
 
     /**
@@ -45,7 +55,6 @@ class EntityController extends Controller
      */
     public function show(string $id)
     {
-        
     }
 
     /**
@@ -59,23 +68,25 @@ class EntityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Entity $entity)
     {
-        //
+        $entity->delete();
+        return $this->succeed(200,"Entity Deleted");
     }
 
     /**
      * List Entity ForUser
      */
-    public function userIndex() {
+    public function userIndex()
+    {
         $entity = Entity::all();
-        return $this->onSuccess($entity,'Success Fetch Entity',200);
+        return $this->onSuccess($entity, 'Success Fetch Entity', 200);
     }
 
     /**
      * 
      */
-    public function userShow(Entity $entity) {
-        
+    public function userShow(Entity $entity)
+    {
     }
 }

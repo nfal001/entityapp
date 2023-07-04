@@ -22,11 +22,14 @@ class EntityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|min:3|max:32',
-            'price'=>'required|numeric|min:1|max:4000000',
-            'city'=>'required|integer',
-            'district'=>'required|integer',
-            'status'=>'required|string'
+            'name' => 'required|min:3|max:32',
+            'price' => 'required|numeric|min:1|max:4000000',
+            'image_url' => 'required|url',
+            'city_id' => 'required|integer',
+            'district_id' => 'required|integer',
+            'entity_status' => 'required|string',
+            "entity_detail.note" => "nullable",
+            "entity_detail.hd_image_url" => "required",
         ];
     }
 }

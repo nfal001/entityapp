@@ -10,6 +10,8 @@ class EntityDetail extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['note','hd_image_url'];
+
     public function entity()
     {
         return $this->belongsTo(Entity::class);
