@@ -32,18 +32,19 @@ class EntityController extends Controller
         DB::beginTransaction();
 
         try {
-            $entity = $request->safe()->except('entity_detail');
+            $entity = collect($request->safe()->except('entity_detail'))->merge('user_id',$request->user()->id);
 
-            $createdEntity = Entity::create($entity);
+            $createdEntity = Entity::create($entity->toArray());
             
             $entityDetail = $request->safe()->entity_detail;
 
             $createdEntity->entityDetail()->create($entityDetail);
+            
             DB::commit();
 
         } catch (Exception $e) {
             DB::rollBack();
-            return $e;
+            // return $e;
             return $this->fail(400, "Something Wrong, Please Check Your Input Again");
         }
         
