@@ -59,10 +59,6 @@ class EntityController extends Controller
     {
         $completeEntity = Entity::with('entityDetail')->findOrFail($id);
 
-        if ($completeEntity->user_id !== auth()->user()->id) {
-            return $this->fail(401, "Entity Does not Belong to user");
-        }
-
         return $this->onSuccess($completeEntity, "Succefully Fetch Entity Detail", 200);
     }
 
@@ -71,7 +67,11 @@ class EntityController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $completeEntity = Entity::with('entityDetail')->findOrFail($id);
+        
+        if ($completeEntity->user_id !== auth()->user()->id) {
+            return $this->fail(401, "Entity Does not Belong to user");
+        }
     }
 
     /**
@@ -105,9 +105,6 @@ class EntityController extends Controller
     {
         $completeEntity = Entity::with('entityDetail')->findOrFail($id);
 
-        if ($completeEntity->user_id !== auth()->user()->id) {
-            return $this->fail(401, "Entity Does not Belong to user");
-        }
         $processedCompleteEntity =  collect($completeEntity)->merge(['rating'=>rand(5,10)]);
         return $this->onSuccess($processedCompleteEntity->toArray(), "Succefully Fetch Entity Detail", 200);
     }
