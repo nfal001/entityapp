@@ -9,25 +9,60 @@ use Illuminate\Http\Request;
 class CartController extends Controller
 {
     use ApiHelpers;
-    public function userIndex(Request $request) {
-        // no cart active? create one. else get user active cart
+
+
+    public function userIndex(Request $request)
+    {
+
         $user = $request->user();
-        if(!$cart = $user->activeCart()->first()){
-            $cart = $this->createNewActiveCart($user);
+        $activeCart = $user->activeCart();
+
+        if (!$activeCart->first()) {
+            $activeCart = $this->createNewActiveCart($user);
         }
-        return $this->onSuccess(['cart'=>$cart],"Successfully Fetch Cart Detail");
-        // return $user->activeCart()->first();
+
+        $itemList = $activeCart->with('itemList.entity')->first();
+
+        return $this->onSuccess(['cart' => $itemList], "Successfully Fetch Cart Detail");
     }
 
-    public function createNewActiveCart($user) {
+    public function createNewActiveCart($user)
+    {
         return $user->activeCart()->create();
     }
+
+    public function userStore(Request $request)
+    {
+        $validated = $request->validate([
+            'item.id' => 'required|uuid|exists:entities,id',
+            'item.name' => 'required'
+        ]);
+
+        $id = collect($validated)->mapWithKeys(function ($a) {
+            return $a;
+        })->only('id')->implode("");
+
+        $succeed = $request->user()->activeCart->addToCart($id);
+
+        return $this->onSuccess($succeed->makeVisible('cart_id'), 'Item Added to Cart');
+    }
+
+    public function updateCart(Request $request) {
+        
+        if(!$request->action == "updateQuantity"){
+            return $this->fail(400,"Invalid Action");
+        }
+
+        $validated = $request->validate(['data.id' => 'uuid']);
+        
+    }
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        
     }
 
     /**
