@@ -13,6 +13,9 @@ class InfoController extends Controller
         $data = [
             'entity_definition' => EntityDefinition::get()->first()
         ];
-        return new ApiResource($data, ['user' => auth()->user()]);
+        
+        $infoCollect = collect($data)->merge(['user' => auth()->user()]);
+
+        return new ApiResource($infoCollect->toArray());
     }
 }

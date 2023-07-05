@@ -12,7 +12,8 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        // no cart active? create one. else get user active cart
+
     }
 
     /**

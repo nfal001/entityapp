@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Library\ApiHelpers;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
+    use ApiHelpers;
     /**
      * admin get pendingTransaction
      */
@@ -17,8 +19,9 @@ class TransactionController extends Controller
     /**
      * Display List transaction per user
      */
-    public function userIndex() {
+    public function userIndex() {        
         
+        return;
     }
 
     /**

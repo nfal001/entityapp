@@ -27,7 +27,7 @@ class UserController extends Controller
     /**
      * Register new user from guest middleware
      */
-    function register(RegisterRequest $request) {
+    public function register(RegisterRequest $request) {
         DB::beginTransaction();
 
         try {
