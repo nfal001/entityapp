@@ -28,8 +28,8 @@ class RegisterRequest extends FormRequest
             "first_name" => 'required',
             "last_name" => 'required',
             "phone" => 'required',
-            "address.addr_name" => "required",
-            "address.postal_code" => "required|integer",
+            "address.addr_name" => "required", // default
+            "address.postal_code" => "required|integer", 
             "address.address_full" => "required",
             "address.district_id" => "required|integer",
             "address.phone" => 'required',

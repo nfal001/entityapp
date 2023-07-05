@@ -10,7 +10,6 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Throwable;
 
 class UserController extends Controller
 {
@@ -32,26 +31,6 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-            // return $request- >validated();
-            // {
-            //     "name": "Sayid",
-            //     "email": "",
-            //     "password": "",
-            //     "first_name": "",
-            //     "last_name": "",
-            //     "phone": "",
-            //     "address": {
-            //         "addr_name": "default",
-            //         "address": "",
-            //         "postal_code": "",
-            //         "phone": "",
-            //         "district": "",
-            //         "city": "",
-            //         "province": "",
-            //         "address_note": ""
-            //     }
-            // }
-
             $user = User::create([
                 'name'=>$request->safe()->name,
                 'email'=>$request->safe()->email,
@@ -59,7 +38,7 @@ class UserController extends Controller
             ]);
 
             $info = $request->safe()->only('first_name','last_name','phone');
-            $userInfo = $user->userInfo()->create($info);
+            $user->userInfo()->create($info); //userInfo
 
             $address = 
             collect($request->safe()->address)->merge(['is_choosen_address'=>1,'receiver_name'=>$request->safe()->first_name." ".$request->safe()->last_name])
