@@ -92,7 +92,15 @@ class EntityController extends Controller
      */
     public function userIndex()
     {
-        $entities = Entity::all()->each(function ($entity) {
+        $entities = Entity::ready()->get()->each(function ($entity) {
+            $entity->rating = rand(4,10);
+        });
+        return $this->onSuccess($entities->toArray(), 'Success Fetch Entity', 200);
+    }
+
+    public function userIndexOptional()
+    {
+        $entities = Entity::ready()->with('entityDetail')->get()->each(function ($entity) {
             $entity->rating = rand(4,10);
         });
         return $this->onSuccess($entities->toArray(), 'Success Fetch Entity', 200);
@@ -105,7 +113,7 @@ class EntityController extends Controller
     {
         $completeEntity = Entity::with('entityDetail')->findOrFail($id);
 
-        $processedCompleteEntity =  collect($completeEntity)->merge(['rating'=>rand(5,10)]);
+        $processedCompleteEntity = collect($completeEntity)->merge(['rating'=>rand(5,10)]);
         return $this->onSuccess($processedCompleteEntity->toArray(), "Succefully Fetch Entity Detail", 200);
     }
 }

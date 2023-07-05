@@ -13,16 +13,20 @@ class Cart extends Model
 
     protected $keyType = 'string';
     public $incrementing = false;
-    protected $hidden = ['status','created_at','user_id'];
-    
+    protected $hidden = ['status','created_at','user_id','id'];
+
     public function scopeCurrentActiveCart() {
-        return $this->where('status','active')->cartList();
+        return $this->where('status','active');
     }
 
-    public function cartList() {
+    public function itemList() {
         return $this->hasMany(CartEntity::class);
     }
 
+    public function addToCart(string $item) {
+        return $this->itemList()->create(['entity_id'=>$item]);
+    }
+    
     function createTransaction() {
         
     }

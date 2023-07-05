@@ -18,7 +18,7 @@ class Entity extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $fillable = ['name','price','status','image_url','district_id','city_id','user_id'];
+    protected $fillable = ['name','price','status','image_url','district_id','city_id','user_id','entity_status'];
     protected $with = ['district:id,name','city:id,name'];
     protected $hidden = ['district_id','city_id','user_id','created_at'];
 
