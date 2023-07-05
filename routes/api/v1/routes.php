@@ -21,7 +21,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
         Route::get('entities',[EntityController::class,'userIndex'])->name('entities.index');
         Route::get('entities/{entity}',[EntityController::class,'userShow'])->name('entities.show');
         
-        Route::get('carts',[CartController::class,'index'])->name('carts');
+        Route::get('carts',[CartController::class,'userIndex'])->name('carts');
         Route::post('carts',[CartController::class,'store'])->name('carts.store');
         Route::delete('carts',[CartController::class,'store'])->name('carts.destroy');
 

@@ -20,7 +20,9 @@ class EntityController extends Controller
      */
     public function index()
     {
-        $entity = Entity::all();
+        $entity = Entity::all()->each(function ($item) {
+            return collect($item)->merge(['rating'=>rand(3,10)])->toArray();
+        });
         return new EntityResource($entity);
     }
 
@@ -90,8 +92,10 @@ class EntityController extends Controller
      */
     public function userIndex()
     {
-        $entity = Entity::all();
-        return $this->onSuccess($entity, 'Success Fetch Entity', 200);
+        $entities = Entity::all()->each(function ($entity) {
+            $entity->rating = rand(4,10);
+        });
+        return $this->onSuccess($entities->toArray(), 'Success Fetch Entity', 200);
     }
 
     /**
@@ -104,7 +108,7 @@ class EntityController extends Controller
         if ($completeEntity->user_id !== auth()->user()->id) {
             return $this->fail(401, "Entity Does not Belong to user");
         }
-
-        return $this->onSuccess($completeEntity, "Succefully Fetch Entity Detail", 200);
+        $processedCompleteEntity =  collect($completeEntity)->merge(['rating'=>rand(5,10)]);
+        return $this->onSuccess($processedCompleteEntity->toArray(), "Succefully Fetch Entity Detail", 200);
     }
 }

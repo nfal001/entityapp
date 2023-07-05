@@ -37,8 +37,8 @@ trait ApiHelpers
     {
         return response()->json([
             'success' =>true,
-            'message' => $message,
             'data' => $data,
+            'message' => $message,
             'status' => $code,
         ], $code);
     }

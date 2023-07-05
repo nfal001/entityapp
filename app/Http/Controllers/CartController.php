@@ -2,18 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Library\ApiHelpers;
 use App\Models\Features\Cart;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    use ApiHelpers;
+    public function userIndex(Request $request) {
+        // no cart active? create one. else get user active cart
+        $user = $request->user();
+        if(!$cart = $user->activeCart()->first()){
+            $cart = $this->createNewActiveCart($user);
+        }
+        return $this->onSuccess(['cart'=>$cart],"Successfully Fetch Cart Detail");
+        // return $user->activeCart()->first();
+    }
+
+    public function createNewActiveCart($user) {
+        return $user->activeCart()->create();
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // no cart active? create one. else get user active cart
-
+        
     }
 
     /**
@@ -40,13 +54,6 @@ class CartController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

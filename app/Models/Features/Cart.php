@@ -12,8 +12,9 @@ class Cart extends Model
     use HasFactory, HasUuids;
 
     protected $keyType = 'string';
-    protected $incrementing = false;
-
+    public $incrementing = false;
+    protected $hidden = ['status','created_at','user_id'];
+    
     public function scopeCurrentActiveCart() {
         return $this->where('status','active')->cartList();
     }
