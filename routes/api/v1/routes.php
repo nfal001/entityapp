@@ -24,6 +24,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
         
         Route::get('carts',[CartController::class,'userIndex'])->name('carts');
         Route::post('carts',[CartController::class,'userStore'])->name('carts.store');
+        Route::put('carts',[CartController::class,'updateCart'])->name('carts.store');
         Route::delete('carts',[CartController::class,'store'])->name('carts.destroy');
 
         Route::get('checkout',[TransactionController::class,'commit'])->name('checkout');
