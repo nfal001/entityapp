@@ -9,8 +9,8 @@ class CartEntity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['entity_id'];
-    protected $hidden = ['id','updated_at','cart_id'];
+    protected $fillable = ['entity_id','qty'];
+    protected $hidden = ['entity_id','updated_at','cart_id'];
 
     public function entity() {
         return $this->belongsTo(Entity::class);

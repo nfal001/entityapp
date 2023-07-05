@@ -15,8 +15,26 @@ class Transaction extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $with = ['user:uuid','cart:uuid','address:id,address_full'];
+    /**
+     * after fresh migration, remove user_id from $fillable
+     */
+    protected $fillable = ['user_id','cart_id','address_id','payment_proof','order_status'];
+    protected $with = ['user:id,name','cart'];
+    protected $hidden = ['cart_id','user_id','address_id'];
     
+
+
+    /**
+     * Draft
+     */
+
+    //  eager load 
+    // ->load(
+    //     [
+    //         'address'=>['city:id,name','province:id,name','district:id,name']
+    //     ]
+    // );
+
     public function user() {
         return $this->belongsTo(User::class);
     }

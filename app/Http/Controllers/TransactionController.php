@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Library\ApiHelpers;
 use App\Models\Transaction;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -12,24 +14,67 @@ class TransactionController extends Controller
     /**
      * admin get pendingTransaction
      */
-    public function adminGetPendingTransactions() {
-        
+    public function adminGetPendingTransactions()
+    {
     }
 
     /**
      * Display List transaction per user
      */
-    public function userIndex() {        
-        
-        return;
+    public function userIndex()
+    {
+        $transactions = auth()->user()->transactions->load('address');
+
+        return $this->onSuccess($transactions,"Successfuly Fetch Transactions");
     }
 
     /**
      * From Update
      */
-    public function commit() {
+    public function commit(Request $request)
+    {
+
+        $user = $request->user();
         
+        if ($user->activeCart->itemList()->count() <= 0){
+            return $this->fail(422,"Empty Cart Item, Please Add One");
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            $choosenAddress = $user->choosenAddress()->get();
+            $choosenAddressId = collect($choosenAddress)->value('id');
+            $activeCart = $user->activeCart;
+
+            /**
+             * in next update please change it to 
+             * $user->hasOneOrMany(Transaction::class)->create(['something']);
+             * so, it will be make sense
+             */
+            $transactionCart = $activeCart->hasOne(Transaction::class)->create(
+                [
+                    "user_id" => $user->id,
+                    "address_id" => $choosenAddressId,
+                    "payment_proof" => "https://loremflickr.com/512/512/meatball", //dummy data, should nullable in next fresh migration
+                    "order_status" => "Pending" //dummy data, doesn't need to fill order_status when checkout action happened
+                ]
+            );
+            $activeCart->update(['status' => 'saved']);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $e;
+            return $this->fail(400, "Transaction Fail");
+        }
+
+        $activeCart->refresh();
+
+        return $this->onSuccess(['choosen_cart'=>$activeCart,'transaction'=>$transactionCart], 'Transaction Created');
     }
+
     /**
      * Display a listing of the resource.
      */

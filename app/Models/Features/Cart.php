@@ -13,6 +13,8 @@ class Cart extends Model
 
     protected $keyType = 'string';
     public $incrementing = false;
+
+    protected $fillable = ['status'];
     protected $hidden = ['status','created_at','user_id','id'];
 
     public function scopeCurrentActiveCart() {

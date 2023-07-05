@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Library\ApiHelpers;
+use App\Models\CartEntity;
 use App\Models\Features\Cart;
 use Illuminate\Http\Request;
 
@@ -48,16 +49,33 @@ class CartController extends Controller
     }
 
     public function updateCart(Request $request) {
-        
-        if(!$request->action == "updateQuantity"){
+        $validated = $request->validate(['data.qty'=>'required|integer|max:100','data.id'=>'required']);
+
+        if($request->action !== "updateQuantity"){
             return $this->fail(400,"Invalid Action");
         }
-
-        $validated = $request->validate(['data.id' => 'uuid']);
         
+        $id = $validated['data']['id'];
+        $qty = $validated['data']['qty'];
+
+        $cartEntity = CartEntity::with('entity')->findOrFail($id);
+        
+        if($qty === 0){
+            
+            $this->deleteCartItem($cartEntity);
+
+            return $this->succeed(200,"Entity Item qty 0, Delete Item");
+        }
+
+        $cartEntity->update(['qty'=>$qty]);
+        $cartEntity->refresh();
+
+        return $this->onSuccess($cartEntity,"Cart Item Updated");
     }
 
-
+    public function deleteCartItem(CartEntity $cartEntity) {
+        return $cartEntity->delete();
+    }
     /**
      * Display a listing of the resource.
      */
