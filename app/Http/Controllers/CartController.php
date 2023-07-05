@@ -34,8 +34,8 @@ class CartController extends Controller
     public function userStore(Request $request)
     {
         $validated = $request->validate([
-            'item.id' => 'required|uuid|exists:entities,id',
-            'item.name' => 'required'
+            'data.id' => 'required|uuid|exists:entities,id',
+            'data.name' => 'required'
         ]);
 
         $id = collect($validated)->mapWithKeys(function ($a) {
