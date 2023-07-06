@@ -20,8 +20,8 @@ class EntityController extends Controller
      */
     public function index()
     {
-        $entity = Entity::all()->each(function ($item) {
-            return collect($item)->merge(['rating'=>rand(3,10)])->toArray();
+        $entity = Entity::latest()->get()->each(function ($item) {
+            return collect($item)->merge(['rating' => rand(3, 10)])->toArray();
         });
         return new EntityResource($entity);
     }
@@ -68,7 +68,7 @@ class EntityController extends Controller
     public function update(string $id)
     {
         $completeEntity = Entity::with('entityDetail')->findOrFail($id);
-        
+
         if ($completeEntity->user_id !== auth()->user()->id) {
             return $this->fail(401, "Entity Does not Belong to user");
         }
@@ -92,16 +92,16 @@ class EntityController extends Controller
      */
     public function userIndex()
     {
-        $entities = Entity::ready()->get()->each(function ($entity) {
-            $entity->rating = rand(4,10);
+        $entities = Entity::ready()->latest()->get()->each(function ($entity) {
+            $entity->rating = rand(4, 10);
         });
         return $this->onSuccess($entities->toArray(), 'Success Fetch Entity', 200);
     }
 
     public function userIndexOptional()
     {
-        $entities = Entity::ready()->with('entityDetail')->get()->each(function ($entity) {
-            $entity->rating = rand(4,10);
+        $entities = Entity::ready()->latest()->with('entityDetail')->get()->each(function ($entity) {
+            $entity->rating = rand(4, 10);
         });
         return $this->onSuccess($entities->toArray(), 'Success Fetch Entity', 200);
     }
@@ -113,7 +113,15 @@ class EntityController extends Controller
     {
         $completeEntity = Entity::with('entityDetail')->findOrFail($id);
 
-        $processedCompleteEntity = collect($completeEntity)->merge(['rating'=>rand(5,10)]);
+        $processedCompleteEntity = collect($completeEntity)->merge(['rating' => rand(5, 10)]);
+
+        /**
+         * Draft, flatten data  
+         */
+        // $processedCompleteEntity = $processedCompleteEntity->dot()->mapWithKeys(function ($value, $key) {
+        //     return [str_replace('.', '_',$key) => $value];
+        // });
+        
         return $this->onSuccess($processedCompleteEntity->toArray(), "Succefully Fetch Entity Detail", 200);
     }
 }

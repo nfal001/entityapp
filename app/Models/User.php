@@ -72,7 +72,7 @@ class User extends Authenticatable
      * Select Choosen Address
      */
     public function choosenAddress() {
-        return $this->hasOne(Address::class,'user_info_id')->ready();
+        return $this->hasOne(Address::class,'user_info_id')->where('addresses.is_choosen_address',true);
     }
 
     /**

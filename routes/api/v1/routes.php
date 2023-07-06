@@ -35,6 +35,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
         
         Route::get('profile', [UserInfoController::class, 'profile'])->name('user.profile');
         Route::get('addresses', [AddressController::class, 'index'])->name('user.addresses');
+        Route::patch('addresses/{address}/select', [AddressController::class, 'selectAddress'])->name('user.addresses');
+
     });
 
     

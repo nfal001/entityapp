@@ -8,6 +8,7 @@ use App\Http\Requests\Features\AddressRequest;
 use App\Models\Features\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AddressController extends Controller
 {
@@ -38,9 +39,44 @@ class AddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Address $address)
+    public function selectAddress(Request $request, Address $address)
     {
-        //
+        $user = $request->user();
+
+        if($address->is_choosen_address){
+            return $this->onSuccess($address,"Address Selected");
+        }
+        
+        if($address->user->id !== $user->id){
+            return $this->fail(422,"Address not belong to user");
+        }
+
+        DB::beginTransaction();
+        
+        try {
+            
+            $activeAddr = Address::find($user->choosenAddress->id);
+            $activeAddr->is_choosen_address = 0;
+            $activeAddr->save();
+
+            $address->is_choosen_address = 1;
+            
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            // return $th;
+            return $this->fail(500,"Something Went Error");
+        }
+
+        $address->save();
+        return $this->onSuccess($address,"Address Selected");
+    }
+
+    public function show(Address $address) {
+        
+        $show = $address->with(['province:id,name','city:id,name','district:id,name'])->get()->toArray();
+
+        return $show;
     }
 
     /**

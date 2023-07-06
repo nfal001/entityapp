@@ -47,7 +47,7 @@ class TransactionController extends Controller
             $choosenAddress = $user->choosenAddress()->get();
             $choosenAddressId = collect($choosenAddress)->value('id');
             $activeCart = $user->activeCart;
-
+            
             /**
              * in next update please change it to 
              * $user->hasOneOrMany(Transaction::class)->create(['something']);
@@ -66,7 +66,7 @@ class TransactionController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return $e;
+
             return $this->fail(400, "Transaction Fail");
         }
 

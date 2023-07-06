@@ -51,6 +51,11 @@ class Address extends Model
         return $this->belongsTo(District::class);
     }
 
+    // public function createWithGeneratedAddressFull(array $data) {
+    //     return create(['
+    //     '])
+    // }
+
     // public function geo() {
     //     return $this->with('province','city','disctrict');
     // }
