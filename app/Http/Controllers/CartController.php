@@ -45,16 +45,21 @@ class CartController extends Controller
             'data.name' => 'required',
         ]);
 
-        $activeCart = $request->user()->activeCart;
-        $id = collect($validated)->value('id');
         
-        $cart = CartEntity::where('entity_id',$id)->where('cart_id',$activeCart->id);
+        if(!$activeCart = $request->user()->activeCart){
+            $activeCart = $this->createNewActiveCart($request->user());
+        };
+
+        $id = $validated['data']['id'];
+
+        // return $id;
         
+        $entityExistInUserActiveCart = CartEntity::where('entity_id',$id)->where('cart_id',$activeCart->id);
         // return $cart;
         
         $last_price = Entity::find($id)->price;
         
-        if($cart->count() >= 1) {
+        if($entityExistInUserActiveCart->count() >= 1) {
             return $this->fail(422,"Entity Already Added");
         }
         
