@@ -23,11 +23,18 @@ class TransactionController extends Controller
      */
     public function userIndex()
     {
-        $transactions = auth()->user()->transactions->load('address');
-
+        $transactions = auth()->user()->transactions->load('address')->each(function ($transaction) {
+            $transaction->total_price = rand(1000,1238713);
+        });
         return $this->onSuccess($transactions,"Successfuly Fetch Transactions");
     }
 
+    public function userShow(Transaction $transaction) {
+
+        $transaction->load('address.district','address.province','address.city','cart.itemList.entity:id,name,price');
+
+        return $this->onSuccess($transaction,"Successfully Fetch Transaction ID: $transaction->id");
+    }
     /**
      * From Update
      */
@@ -73,6 +80,10 @@ class TransactionController extends Controller
         $activeCart->refresh();
 
         return $this->onSuccess(['choosen_cart'=>$activeCart,'transaction'=>$transactionCart], 'Transaction Created');
+    }
+
+    public function updateTransaction() {
+        
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Models\Features;
 use App\Models\Geo\City;
 use App\Models\Geo\District;
 use App\Models\Geo\Province;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,6 +37,9 @@ class Address extends Model
         return $this->belongsTo(UserInfo::class);
     }
 
+    public function transactions() {
+        return $this->hasMany(Transaction::class,'address_id');
+    }
     /**
      * GEO
      */
@@ -46,6 +50,10 @@ class Address extends Model
     public function city() {
         return $this->belongsTo(City::class);
     }
+
+    // public function geo() {
+    //     return $this
+    // }
 
     public function district() {
         return $this->belongsTo(District::class);
