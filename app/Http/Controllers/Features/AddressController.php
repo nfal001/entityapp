@@ -55,9 +55,12 @@ class AddressController extends Controller
         
         try {
             
-            $activeAddr = Address::find($user->choosenAddress->id);
-            $activeAddr->is_choosen_address = 0;
-            $activeAddr->save();
+            $activeAddr = Address::findOrFail($user->choosenAddress->id);
+            
+            if($activeAddr){
+                $activeAddr->is_choosen_address = 0;
+                $activeAddr->save();
+            }
 
             $address->is_choosen_address = 1;
             
