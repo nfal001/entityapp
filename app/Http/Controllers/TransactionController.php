@@ -26,6 +26,11 @@ class TransactionController extends Controller
         $transactions = auth()->user()->transactions->load('address');
         return $this->onSuccess($transactions,"Successfuly Fetch Transactions");
     }
+    public function userIndexOptional()
+    {
+        $transactions = auth()->user()->transactions->load('address.district','address.province','address.city','cart.itemList.entity:id,name,price');
+        return $this->onSuccess($transactions,"Successfuly Fetch Transactions");
+    }
 
     public function userShow(Transaction $transaction) {
 
@@ -74,6 +79,7 @@ class TransactionController extends Controller
                     "total_price" => $total_price
                 ]
             );
+            
             $activeCart->update(['status' => 'saved']);
 
             DB::commit();

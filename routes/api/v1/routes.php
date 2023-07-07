@@ -30,6 +30,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
         Route::post('checkout',[TransactionController::class,'commit'])->name('checkout');
 
         Route::get('transactions',[TransactionController::class,'userIndex'])->name('user.transactions');
+        Route::get('transactions-optional',[TransactionController::class,'userIndexOptional'])->name('user.transactions.index.optional');
         Route::get('transactions/{transaction}',[TransactionController::class,'userShow'])->name('user.transactions.show');
         
         Route::apiResource('addresses',AddressController::class);
