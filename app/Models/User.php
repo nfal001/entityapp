@@ -94,7 +94,14 @@ class User extends Authenticatable
      * Get User Active Cart, (can only have one)
      */
     public function activeCart() {
-        return $this->hasOne(Cart::class)->where('status','active');
+        return $this->hasOne(Cart::class);
+    }
+
+    /**
+     * Get Carts
+     */
+    public function cart() {
+        return $this->hasOne(Cart::class);
     }
 
     /**

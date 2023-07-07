@@ -15,7 +15,7 @@ class Cart extends Model
     public $incrementing = false;
 
     protected $fillable = ['status'];
-    protected $hidden = ['status','created_at','user_id','id'];
+    protected $hidden = ['created_at','id'];
 
     public function scopeCurrentActiveCart() {
         return $this->where('status','active');

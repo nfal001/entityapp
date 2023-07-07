@@ -17,13 +17,16 @@ class CartController extends Controller
     {
 
         $user = $request->user();
-        $activeCart = $user->activeCart();
+
+        $activeCart = Cart::with('itemList')->where('user_id',$user->id);
+
+        // return [$activeCart,$user];
 
         if (!$activeCart->first()) {
             $activeCart = $this->createNewActiveCart($user);
         }
 
-        $itemList = $activeCart->with('itemList.entity')->first();
+        $itemList = $activeCart->first();
 
         return $this->onSuccess(['cart' => $itemList], "Successfully Fetch Cart Detail");
     }
@@ -40,12 +43,17 @@ class CartController extends Controller
             'data.name' => 'required',
         ]);
 
-        
-        $id = collect($validated)->mapWithKeys(function ($a) {
-            return $a;
-        })->only('id')->implode("");
-        
+        $activeCart = $request->user()->activeCart;
+
+        $id = collect($validated)->value('id');
+
+        $cart = CartEntity::where('entity_id',$id)->where('cart_id',$activeCart->id); 
+
         $last_price = Entity::find($id)->price;
+
+        if($cart->count() >= 1) {
+            return $this->fail(422,"Entity Already Added");
+        }
 
         $succeed = $request->user()->activeCart->addToCart($id,$last_price);
 
