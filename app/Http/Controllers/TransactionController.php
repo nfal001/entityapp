@@ -16,6 +16,13 @@ class TransactionController extends Controller
      */
     public function adminGetPendingTransactions()
     {
+        
+    }
+    
+    public function adminGetProcessingTransactions()
+    {
+        $transactions = Transaction::with('address.district','address.province','address.city')->where('order_status','Pending');
+        return $this->onSuccess($transactions,"Successfully Fetch Transactions");
     }
 
     /**
@@ -103,7 +110,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        $transactions = Transaction::with('address.district','address.province','address.city')->where('order_status','Pending');
+        return $this->onSuccess($transactions,"Successfully Fetch Transactions");
     }
 
     /**
