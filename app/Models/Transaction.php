@@ -18,7 +18,7 @@ class Transaction extends Model
     /**
      * after fresh migration, remove user_id from $fillable
      */
-    protected $fillable = ['user_id','cart_id','address_id','payment_proof','order_status'];
+    protected $fillable = ['user_id','cart_id','address_id','payment_proof','order_status','total_price'];
     protected $with = ['user:id,name','cart','address'];
     protected $hidden = ['cart_id','user_id','address_id'];
     
