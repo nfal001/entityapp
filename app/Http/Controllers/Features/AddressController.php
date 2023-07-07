@@ -20,8 +20,8 @@ class AddressController extends Controller
     public function index(Request $request)
     {
         $addresses = $request->user()->addresses()->get();
-        
-        return $this->onSuccess($addresses,'Success Fetch Address',200);
+
+        return $this->onSuccess($addresses, 'Success Fetch Address', 200);
     }
 
     /**
@@ -33,7 +33,7 @@ class AddressController extends Controller
 
         $request->user()->address()->create($validated);
 
-        return $this->succeed(200,"Succesfully Add new Address");
+        return $this->succeed(200, "Succesfully Add new Address");
     }
 
     /**
@@ -43,39 +43,41 @@ class AddressController extends Controller
     {
         $user = $request->user();
 
-        if($address->is_choosen_address){
-            return $this->onSuccess($address,"Address Selected");
+        if ($address->user->id !== $user->id) {
+            return $this->fail(422, "Address not belong to user");
         }
-        
-        if($address->user->id !== $user->id){
-            return $this->fail(422,"Address not belong to user");
+
+        if ($address->is_choosen_address) {
+            return $this->onSuccess($address, "Address Selected");
         }
 
         DB::beginTransaction();
-        
+
         try {
-            
-            if($activeAddr = Address::findOrFail($user->choosenAddress->id)){
+
+            if ($userChoosenAddr = $user->choosenAddress){
+                $activeAddr = Address::findOrFail($userChoosenAddr->id);
                 $activeAddr->is_choosen_address = 0;
                 $activeAddr->save();
             }
 
             $address->is_choosen_address = 1;
-            
+
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             // return $th;
-            return $this->fail(500,"Something Went Error");
+            return $this->fail(500, "Something Went Error");
         }
 
         $address->save();
-        return $this->onSuccess($address,"Address Selected");
+        return $this->onSuccess($address, "Address Selected");
     }
 
-    public function show(Address $address) {
-        $loadedAddress = $address->load(['province:id,name','city:id,name','district:id,name']);
-        return $this->onSuccess($loadedAddress,"Successfully Fetch Address ID : $address->id");
+    public function show(Address $address)
+    {
+        $loadedAddress = $address->load(['province:id,name', 'city:id,name', 'district:id,name']);
+        return $this->onSuccess($loadedAddress, "Successfully Fetch Address ID : $address->id");
     }
 
     /**
@@ -83,11 +85,11 @@ class AddressController extends Controller
      */
     public function destroy(Address $address)
     {
-        if(!$address->user_info_id == auth()->user()->id){
-            return $this->fail(401,"Address Does not Belong to user");
+        if (!$address->user_info_id == auth()->user()->id) {
+            return $this->fail(401, "Address Does not Belong to user");
         }
 
         $address->delete();
-        return $this->succeed(200,"Address Deleted");
+        return $this->succeed(200, "Address Deleted");
     }
 }
