@@ -31,10 +31,8 @@ class TransactionController extends Controller
 
     public function userShow(Transaction $transaction) {
 
-        $transaction->load('address.district','address.province','address.city','cart.itemList.entity:id,name,price')->each(function ($transaction) {
-            $transaction->total_price = rand(1000,1238713);
-        });
-
+        $transaction->load('address.district','address.province','address.city','cart.itemList.entity:id,name,price');
+        $transaction->total_price = rand(12331,132878);
         return $this->onSuccess($transaction,"Successfully Fetch Transaction ID: $transaction->id");
     }
     /**
