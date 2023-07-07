@@ -110,7 +110,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with('address.district','address.province','address.city')->all();
+        $transactions = Transaction::with('address.district','address.province','address.city')->get();
         return $this->onSuccess($transactions,"Successfully Fetch Transactions");
     }
 
