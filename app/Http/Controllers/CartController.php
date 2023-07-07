@@ -21,14 +21,14 @@ class CartController extends Controller
         $activeCart = Cart::where('user_id',$user->id)->where('status','active');
 
         // return [$activeCart,$user];
-
+        
         if (!$activeCart->first()) {
             $activeCart = $this->createNewActiveCart($user);
         }
+        
+        $freshActiveCart =$activeCart->fresh('itemList');
 
-        $activeCart->refresh()->load('itemList');
-
-        $itemList = $activeCart;
+        $itemList = $freshActiveCart;
 
         return $this->onSuccess(['cart' => $itemList], "Successfully Fetch Cart Detail");
     }
@@ -46,20 +46,20 @@ class CartController extends Controller
         ]);
 
         $activeCart = $request->user()->activeCart;
-
         $id = collect($validated)->value('id');
-
+        
         $cart = CartEntity::where('entity_id',$id)->where('cart_id',$activeCart->id);
         
-        return $cart;
-
+        // return $cart;
+        
         $last_price = Entity::find($id)->price;
-
+        
         if($cart->count() >= 1) {
             return $this->fail(422,"Entity Already Added");
         }
-
+        
         $succeed = $request->user()->activeCart->addToCart($id,$last_price);
+        // return '1';
 
         return $this->onSuccess($succeed->makeVisible('cart_id'), 'Item Added to Cart');
     }
