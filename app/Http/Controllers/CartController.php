@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Library\ApiHelpers;
 use App\Models\CartEntity;
+use App\Models\Entity;
 use App\Models\Features\Cart;
 use Illuminate\Http\Request;
 
@@ -36,14 +37,17 @@ class CartController extends Controller
     {
         $validated = $request->validate([
             'data.id' => 'required|uuid|exists:entities,id',
-            'data.name' => 'required'
+            'data.name' => 'required',
         ]);
 
+        
         $id = collect($validated)->mapWithKeys(function ($a) {
             return $a;
         })->only('id')->implode("");
+        
+        $last_price = Entity::find($id)->price;
 
-        $succeed = $request->user()->activeCart->addToCart($id);
+        $succeed = $request->user()->activeCart->addToCart($id,$last_price);
 
         return $this->onSuccess($succeed->makeVisible('cart_id'), 'Item Added to Cart');
     }

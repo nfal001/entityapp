@@ -23,16 +23,15 @@ class TransactionController extends Controller
      */
     public function userIndex()
     {
-        $transactions = auth()->user()->transactions->load('address')->each(function ($transaction) {
-            $transaction->total_price = rand(1000,1238713);
-        });
+        $transactions = auth()->user()->transactions->load('address');
         return $this->onSuccess($transactions,"Successfuly Fetch Transactions");
     }
 
     public function userShow(Transaction $transaction) {
 
         $transaction->load('address.district','address.province','address.city','cart.itemList.entity:id,name,price');
-        $transaction->total_price = rand(12331,132878);
+        // $transaction->total_price = rand(12331,132878);
+        
         return $this->onSuccess($transaction,"Successfully Fetch Transaction ID: $transaction->id");
     }
     /**
@@ -41,11 +40,17 @@ class TransactionController extends Controller
     public function commit(Request $request)
     {
 
+        // some bug found
         $user = $request->user();
+
         
         if ($user->activeCart->itemList()->count() <= 0){
             return $this->fail(422,"Empty Cart Item, Please Add One");
         }
+        
+        $total_price = collect($user->activeCart->itemList()->get())->sum(function ($item) {
+            return $item->last_price;
+        });
 
         DB::beginTransaction();
 
@@ -65,7 +70,8 @@ class TransactionController extends Controller
                     "user_id" => $user->id,
                     "address_id" => $choosenAddressId,
                     "payment_proof" => "https://loremflickr.com/512/512/meatball", //dummy data, should nullable in next fresh migration
-                    "order_status" => "Pending" //dummy data, doesn't need to fill order_status when checkout action happened
+                    "order_status" => "Pending", //dummy data, doesn't need to fill order_status when checkout action happened
+                    "total_price" => $total_price
                 ]
             );
             $activeCart->update(['status' => 'saved']);

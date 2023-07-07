@@ -25,8 +25,8 @@ class Cart extends Model
         return $this->hasMany(CartEntity::class);
     }
 
-    public function addToCart(string $item) {
-        return $this->itemList()->create(['entity_id'=>$item]);
+    public function addToCart(string $item, int $last_price) {
+        return $this->itemList()->create(['entity_id'=>$item, 'last_price'=> $last_price ]);
     }
     
     function createTransaction() {

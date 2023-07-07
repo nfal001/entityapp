@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('price');
             $table->string('image_url')->nullable();
-            $table->foreignId('city_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('district_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('city_id')->constrained()->nullOnDelete();
+            $table->foreignId('district_id')->constrained()->nullOnDelete();
             $table->enum('entity_status',['Draft','Out Of Stock','Ready'])->default('Draft');
             $table->foreignUuid('user_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
