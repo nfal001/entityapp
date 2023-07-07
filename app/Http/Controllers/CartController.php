@@ -18,17 +18,18 @@ class CartController extends Controller
 
         $user = $request->user();
 
-        $activeCart = Cart::where('user_id',$user->id)->where('status','active');
+        $oldActiveCart = Cart::with('itemList')->where('user_id',$user->id)->where('status','active');
 
-        // return [$activeCart,$user];
+        // return [$oldActiveCart,$user];
         
-        if (!$activeCart->first()) {
-            $activeCart = $this->createNewActiveCart($user);
+        if (!$oldActiveCart->first()) {
+            $created = $this->createNewActiveCart($user)->load('itemList');
+            $itemList = $created;
+        } else {
+            $freshActiveCart = $oldActiveCart->first();
+            $itemList = $freshActiveCart;
         }
-        
-        $freshActiveCart =$activeCart->fresh('itemList');
 
-        $itemList = $freshActiveCart;
 
         return $this->onSuccess(['cart' => $itemList], "Successfully Fetch Cart Detail");
     }
