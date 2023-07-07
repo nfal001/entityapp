@@ -18,7 +18,7 @@ class CartController extends Controller
 
         $user = $request->user();
 
-        $activeCart = Cart::with('itemList')->where('user_id',$user->id);
+        $activeCart = Cart::with('itemList')->where('user_id',$user->id)->where('status','active');
 
         // return [$activeCart,$user];
 
