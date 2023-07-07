@@ -18,7 +18,7 @@ class CartController extends Controller
 
         $user = $request->user();
 
-        $activeCart = Cart::with('itemList')->where('user_id',$user->id)->where('status','active');
+        $activeCart = Cart::where('user_id',$user->id)->where('status','active');
 
         // return [$activeCart,$user];
 
@@ -26,7 +26,9 @@ class CartController extends Controller
             $activeCart = $this->createNewActiveCart($user);
         }
 
-        $itemList = $activeCart->first();
+        $activeCart->refresh()->load('itemList');
+
+        $itemList = $activeCart;
 
         return $this->onSuccess(['cart' => $itemList], "Successfully Fetch Cart Detail");
     }
@@ -47,7 +49,9 @@ class CartController extends Controller
 
         $id = collect($validated)->value('id');
 
-        $cart = CartEntity::where('entity_id',$id)->where('cart_id',$activeCart->id); 
+        $cart = CartEntity::where('entity_id',$id)->where('cart_id',$activeCart->id);
+        
+        return $cart;
 
         $last_price = Entity::find($id)->price;
 
