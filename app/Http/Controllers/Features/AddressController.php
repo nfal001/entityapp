@@ -73,10 +73,8 @@ class AddressController extends Controller
     }
 
     public function show(Address $address) {
-        
-        $show = $address->with(['province:id,name','city:id,name','district:id,name'])->get()->toArray();
-
-        return $show;
+        $loadedAddress = $address->load(['province:id,name','city:id,name','district:id,name']);
+        return $this->onSuccess($loadedAddress,"Successfully Fetch Address ID : $address->id");
     }
 
     /**
