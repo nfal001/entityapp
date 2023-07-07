@@ -21,7 +21,7 @@ class TransactionController extends Controller
     
     public function adminGetProcessingTransactions()
     {
-        $transactions = Transaction::with('address.district','address.province','address.city')->where('order_status','Pending');
+        $transactions = Transaction::with('address.district','address.province','address.city')->where('order_status','Pending')->get();
         return $this->onSuccess($transactions,"Successfully Fetch Transactions");
     }
 
@@ -110,7 +110,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with('address.district','address.province','address.city')->where('order_status','Pending');
+        $transactions = Transaction::with('address.district','address.province','address.city')->all();
         return $this->onSuccess($transactions,"Successfully Fetch Transactions");
     }
 
