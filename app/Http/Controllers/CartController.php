@@ -18,12 +18,12 @@ class CartController extends Controller
 
         $user = $request->user();
 
-        $oldActiveCart = Cart::with('itemList')->where('user_id',$user->id)->where('status','active');
+        $oldActiveCart = Cart::with('itemList.entity')->where('user_id',$user->id)->where('status','active');
 
         // return [$oldActiveCart,$user];
         
         if (!$oldActiveCart->first()) {
-            $created = $this->createNewActiveCart($user)->load('itemList');
+            $created = $this->createNewActiveCart($user)->load('itemList.netity');
             $itemList = $created;
         } else {
             $freshActiveCart = $oldActiveCart->first();

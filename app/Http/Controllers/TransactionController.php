@@ -151,7 +151,20 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        //
+        $validated = $request->validate([
+            'action'=>'required|in:pending,delivering,delivered,paid',
+        ]);
+
+        $action = collect([
+            'pending'=>['order_status'=>'Pending','order_status_message'=>'Preparing Order'],
+            'delivering'=>['order_status'=>'Delivering','order_status_message'=>'Delivering Your Order'],
+            'delivered'=>['order_status'=>'Delivered','order_status_message'=>'Order Delivered'],
+            'paid'=>['payment_status'=>'Delivering','order_status'=>'Delivering','order_status_message'=>'Delivering Your Order']
+        ])->value($validated['action']);
+
+        $transaction->update($action);
+
+        return $this->onSuccess($transaction,"Transaction Updated");
     }
 
     /**
