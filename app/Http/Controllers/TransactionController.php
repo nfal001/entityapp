@@ -35,7 +35,7 @@ class TransactionController extends Controller
     }
     public function userIndexOptional()
     {
-        $transactions = auth()->user()->transactions->load('address.district','address.province','address.city','cart.itemList.entity:id,name,price');
+        $transactions = auth()->user()->transactions->load('address.district','address.province','address.city','cart.itemList.entity');
         return $this->onSuccess($transactions,"Successfuly Fetch Transactions");
     }
 

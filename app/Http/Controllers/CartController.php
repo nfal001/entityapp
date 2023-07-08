@@ -23,7 +23,7 @@ class CartController extends Controller
         // return [$oldActiveCart,$user];
         
         if (!$oldActiveCart->first()) {
-            $created = $this->createNewActiveCart($user)->load('itemList.netity');
+            $created = $this->createNewActiveCart($user)->load('itemList.entity');
             $itemList = $created;
         } else {
             $freshActiveCart = $oldActiveCart->first();
@@ -36,7 +36,7 @@ class CartController extends Controller
 
     public function createNewActiveCart($user)
     {
-        return $user->activeCart()->create();
+        return $user->activeCart()->create(['status','active']);
     }
 
     public function userStore(Request $request)

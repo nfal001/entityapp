@@ -45,6 +45,7 @@ class UserController extends Controller
             ?: throw new Exception("Bad Input",400);
             
             $user->address()->create($address->toArray());
+            
 
             DB::commit();
         } catch(Exception $e){
@@ -52,7 +53,7 @@ class UserController extends Controller
             return $e;
             return $this->fail(400,"something went Error, check your input again");
         }
-        return $this->onSuccess($user,'Account Created',200);
+        return $this->onSuccess([$user],'Account Created',200);
     }
 
     /**
