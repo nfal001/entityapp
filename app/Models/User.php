@@ -60,6 +60,10 @@ class User extends Authenticatable
     public function address() {
         return $this->hasOne(Address::class,'user_info_id');
     }
+
+    // public function draftActiveCart() {
+    //     return $this->carts()->one()->save()
+    // }
     
     /**
      * List Of Address
@@ -102,6 +106,13 @@ class User extends Authenticatable
      */
     public function cart() {
         return $this->hasOne(Cart::class);
+    }
+
+    /**
+     * Get All Carts
+     */
+    public function carts() {
+        return $this->hasMany(Cart::class);
     }
 
     /**

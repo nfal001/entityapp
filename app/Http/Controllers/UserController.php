@@ -50,9 +50,10 @@ class UserController extends Controller
             DB::commit();
         } catch(Exception $e){
             DB::rollBack();
-            return $e;
+            // return $e;
             return $this->fail(400,"something went Error, check your input again");
         }
+        
         return $this->onSuccess([$user],'Account Created',200);
     }
 

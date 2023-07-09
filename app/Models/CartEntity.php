@@ -15,4 +15,8 @@ class CartEntity extends Model
     public function entity() {
         return $this->belongsTo(Entity::class);
     }
+
+    public function addEntityToCart(Entity $entity) {
+        return;
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Library\ApiHelpers;
 use App\Models\CartEntity;
 use App\Models\Entity;
 use App\Models\Features\Cart;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -34,9 +35,19 @@ class CartController extends Controller
         return $this->onSuccess(['cart' => $itemList], "Successfully Fetch Cart Detail");
     }
 
-    public function createNewActiveCart($user)
+    protected function createNewActiveCart(User $user)
     {
-        return $user->activeCart()->create(['status','active']);
+        $newCart = new Cart(['status','active']);
+        return $user->activeCart()->save($newCart);
+    }
+
+    protected function checkEntityExistInSelectedCart(Entity $entity, Cart $cart) {
+        $cartEntity = CartEntity::where('entity_id',$entity->id)->where('cart_id',$cart->id);
+
+        if($cartEntity->count() >= 1) {
+            return true;
+        }
+        return false;
     }
 
     public function userStore(Request $request)
@@ -46,27 +57,28 @@ class CartController extends Controller
             'data.name' => 'required',
         ]);
 
+        $user = $request->user();
         
-        if(!$activeCart = $request->user()->activeCart){
+        /**
+         * If Active Cart Not Exist
+         */
+        if(!$activeCart = $user->activeCart){
             $activeCart = $this->createNewActiveCart($request->user());
         };
 
+        /**
+         * Find Entity related to data.id
+         */
         $id = $validated['data']['id'];
+        $entity = Entity::find($id);
 
-        // return $id;
-        
-        $entityExistInUserActiveCart = CartEntity::where('entity_id',$id)->where('cart_id',$activeCart->id);
-        // return $cart;
-        
-        $last_price = Entity::find($id)->price;
-        
-        if($entityExistInUserActiveCart->count() >= 1) {
+        if($this->checkEntityExistInSelectedCart($entity,$activeCart)){
             return $this->fail(422,"Entity Already Added");
-        }
+        };
         
-        $succeed = $request->user()->activeCart->addToCart($id,$last_price);
-        // return '1';
-
+        // Insert Into CartEntity
+        $succeed = $activeCart->addToCart($entity);
+        
         return $this->onSuccess($succeed->makeVisible('cart_id'), 'Item Added to Cart');
     }
 
