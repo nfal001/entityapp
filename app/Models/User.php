@@ -58,7 +58,7 @@ class User extends Authenticatable
      * select One Address, then use it to index, update or delete them
      */
     public function address() {
-        return $this->hasOne(Address::class,'user_info_id');
+        return $this->hasOne(Address::class);
     }
 
     // public function draftActiveCart() {
@@ -69,14 +69,14 @@ class User extends Authenticatable
      * List Of Address
      */
     public function addresses() {
-        return $this->hasMany(Address::class,'user_info_id');
+        return $this->hasMany(Address::class);
     }
 
     /**
      * Select Choosen Address
      */
     public function choosenAddress() {
-        return $this->hasOne(Address::class,'user_info_id')->where('addresses.is_choosen_address',true);
+        return $this->hasOne(Address::class)->where('addresses.is_choosen_address',true);
     }
 
     /**
