@@ -11,8 +11,8 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    use ApiHelpers;
 
+    use ApiHelpers;
 
     public function userIndex(Request $request)
     {
@@ -44,10 +44,7 @@ class CartController extends Controller
     protected function checkEntityExistInSelectedCart(Entity $entity, Cart $cart) {
         $cartEntity = CartEntity::where('entity_id',$entity->id)->where('cart_id',$cart->id);
 
-        if($cartEntity->count() >= 1) {
-            return true;
-        }
-        return false;
+        return $cartEntity->count() >= 1;
     }
 
     public function userStore(Request $request)
