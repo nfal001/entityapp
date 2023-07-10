@@ -61,7 +61,7 @@ class TransactionController extends Controller
         }
         
         $total_price = collect($user->activeCart->itemList()->get())->sum(function ($item) {
-            return $item->last_price;
+            return $item->last_price * $item->qty;
         });
 
         DB::beginTransaction();
