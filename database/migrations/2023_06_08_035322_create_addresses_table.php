@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('receiver_name');
             $table->string('phone');
             $table->string('country')->nullable(); //draft
-            $table->point('latitude')->nullable(); 
-            $table->point('longitude')->nullable(); 
+            $table->float('latitude')->nullable(); 
+            $table->float('longitude')->nullable(); 
             $table->foreignId('district_id')->constrained()->cascadeOnDelete();
             $table->foreignId('city_id')->constrained()->cascadeOnDelete();
             $table->foreignId('province_id')->constrained()->cascadeOnDelete();
