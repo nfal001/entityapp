@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entities', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
-            $table->unsignedBigInteger('price');
-            $table->string('image_url')->nullable();
-            $table->enum('entity_status',['Draft','Out Of Stock','Ready'])->default('Draft');
+        Schema::create('entity_tags', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entities');
+        Schema::dropIfExists('entity_tags');
     }
 };

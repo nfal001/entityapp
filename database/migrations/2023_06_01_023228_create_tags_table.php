@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('address_lat_longs', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('address_id')->constrained()->cascadeOnDelete();
-            $table->double('latitude')->nullable();
-            $table->double('longitude')->nullable();
-            $table->timestamps();
+            $table->string('name');
+            // $table->timestamps();
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('address_lat_longs');
+        Schema::dropIfExists('tags');
     }
 };

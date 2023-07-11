@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('user_balances', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->float('balance_idr')->default(0);
             $table->string('note')->default('balance in IDR');
-            $table->string('last_transaction_id')->nullable();
             $table->timestamps();
         });
     }

@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('districts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('city_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('province_id'); // ?
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
             $table->timestamps();

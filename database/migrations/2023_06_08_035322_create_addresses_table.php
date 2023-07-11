@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->string('addr_name')->default("default");
             $table->text('address_full');
             $table->string('address_lat_long')->nullable();
@@ -23,9 +22,6 @@ return new class extends Migration
             $table->string('country')->nullable(); //draft
             $table->float('latitude')->nullable(); 
             $table->float('longitude')->nullable(); 
-            $table->foreignId('district_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('city_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('province_id')->constrained()->cascadeOnDelete();
             $table->boolean('is_choosen_address')->default(false);
             $table->text('address_note')->nullable();
             $table->timestamps();

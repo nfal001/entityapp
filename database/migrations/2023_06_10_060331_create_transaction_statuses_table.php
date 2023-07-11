@@ -11,11 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cities', function (Blueprint $table) {
+        // $table->timestamps();
+        Schema::create('transaction_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->timestamps();
+            $table->string('status');
+            $table->string('message');
         });
+
+        // ['Pending','Delivering','Delivered']
+        // ['Preparing Order','Delivering Your Order','Order Delivered']
+        
     }
 
     /**
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('transaction_statuses');
     }
 };
