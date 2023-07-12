@@ -28,7 +28,7 @@ class EntityRequest extends FormRequest
             'city_id' => 'required|integer',
             'district_id' => 'required|integer',
             'entity_status' => 'required|string',
-            "entity_detail.note" => "nullable",
+            "entity_detail.description" => "nullable",
             "entity_detail.hd_image_url" => "required",
         ];
     }

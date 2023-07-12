@@ -5,11 +5,9 @@ namespace App\Models;
 use App\Models\Features\EntityDetail;
 use App\Models\Geo\City;
 use App\Models\Geo\District;
-use App\Models\Geo\Province;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Entity extends Model
 {

@@ -7,7 +7,6 @@ use App\Http\Library\ApiHelpers;
 use App\Http\Requests\Geo\CityRequest;
 use App\Models\Geo\City;
 use App\Models\Geo\Province;
-use Illuminate\Http\Request;
 
 class CityController extends Controller
 {

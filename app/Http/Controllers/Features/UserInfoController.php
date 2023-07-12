@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Features;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Util\ApiResource;
 use App\Models\Features\UserInfo;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserInfoController extends Controller

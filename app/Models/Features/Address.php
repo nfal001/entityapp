@@ -40,6 +40,7 @@ class Address extends Model
     public function transactions() {
         return $this->hasMany(Transaction::class,'address_id');
     }
+    
     /**
      * GEO
      */
@@ -50,14 +51,15 @@ class Address extends Model
     public function city() {
         return $this->belongsTo(City::class);
     }
+    
+    public function district() {
+        return $this->belongsTo(District::class);
+    }
 
     // public function geo() {
     //     return $this
     // }
 
-    public function district() {
-        return $this->belongsTo(District::class);
-    }
 
     // public function createWithGeneratedAddressFull(array $data) {
     //     return create(['
@@ -69,6 +71,6 @@ class Address extends Model
     // }
 
     public function user() {
-        return $this->belongsTo(User::class,'user_info_id');
+        return $this->belongsTo(User::class,'user_id');
     }
 }

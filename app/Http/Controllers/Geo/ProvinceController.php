@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Library\ApiHelpers;
 use App\Http\Requests\Geo\ProvinceRequest;
 use App\Models\Geo\Province;
-use Illuminate\Http\Request;
 
 class ProvinceController extends Controller
 {

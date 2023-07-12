@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Library\ApiHelpers;
 use App\Http\Requests\Features\EntityRequest;
 use App\Http\Resources\Features\EntityResource;
-use App\Http\Resources\Util\ApiResource;
 use App\Models\Entity;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class EntityController extends Controller
@@ -27,7 +25,7 @@ class EntityController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created Entity in storage.
      */
     public function store(EntityRequest $request)
     {
@@ -45,7 +43,6 @@ class EntityController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            // return $e;
             return $this->fail(400, "Something Wrong, Please Check Your Input Again");
         }
 
@@ -53,7 +50,7 @@ class EntityController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified Entity.
      */
     public function show(string $id)
     {
@@ -63,7 +60,7 @@ class EntityController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified Entity in storage.
      */
     public function update(string $id)
     {
@@ -75,7 +72,7 @@ class EntityController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified Entity from storage.
      */
     public function destroy(Entity $entity)
     {

@@ -8,7 +8,6 @@ use App\Http\Requests\Geo\DistrictRequest;
 use App\Models\Geo\City;
 use App\Models\Geo\District;
 use App\Models\Geo\Province;
-use Illuminate\Http\Request;
 
 class DistrictController extends Controller
 {

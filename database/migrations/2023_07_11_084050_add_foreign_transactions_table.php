@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('transactions', function (Blueprint $table) {
             $table->foreignUuid('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignUuid('cart_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignUlid('payment')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUlid('payment_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('address_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('transaction_status_id')->default(1);
         });

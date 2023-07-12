@@ -17,6 +17,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
+    protected $primaryKey = 'id';
+    
     protected $keyType = 'string';
     public $incrementing = false;
     
@@ -58,7 +60,7 @@ class User extends Authenticatable
      * select One Address, then use it to index, update or delete them
      */
     public function address() {
-        return $this->hasOne(Address::class);
+        return $this->hasOne(Address::class,"user_id");
     }
 
     // public function draftActiveCart() {

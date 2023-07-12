@@ -21,6 +21,12 @@ Route::get('/',function () {
     return response()->json(['entity'=>true]);
 });
 
+Route::get('webhook',function () {
+    return response()->json([
+        'message'=>'this endpoint will be used to handle webhook Request'
+    ]);
+});
+
 require __DIR__.'/auth.php';
 
 

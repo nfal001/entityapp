@@ -39,9 +39,13 @@ class UserController extends Controller
 
             $info = $request->safe()->only('first_name','last_name','phone');
             $user->userInfo()->create($info); //userInfo
+            $userName = $request->safe()->first_name." ".$request->safe()->last_name;
 
             $address = 
-            collect($request->safe()->address)->merge(['is_choosen_address'=>1,'receiver_name'=>$request->safe()->first_name." ".$request->safe()->last_name])
+            collect($request->safe()->address)->merge([
+                'is_choosen_address'=>TRUE,
+                'receiver_name'=>$userName
+            ])
             ?: throw new Exception("Bad Input",400);
             
             $user->address()->create($address->toArray());
@@ -50,11 +54,11 @@ class UserController extends Controller
             DB::commit();
         } catch(Exception $e){
             DB::rollBack();
-            // return $e;
+            return $e;
             return $this->fail(400,"something went Error, check your input again");
         }
         
-        return $this->onSuccess([$user],'Account Created',200);
+        return $this->onSuccess(['account'=>$user],'Account Created',200);
     }
 
     /**

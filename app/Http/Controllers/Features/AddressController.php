@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Library\ApiHelpers;
 use App\Http\Requests\Features\AddressRequest;
 use App\Models\Features\Address;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

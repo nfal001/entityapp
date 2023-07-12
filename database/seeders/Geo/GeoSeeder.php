@@ -12,6 +12,10 @@ class GeoSeeder extends Seeder
      */
     public function run(): void
     {
-        $provinces = \App\Models\Geo\Province::factory()->createMany([['name'=>'Jawa Barat'],['name'=>'Jawa Timur'],['name'=>'DI Yogyakarta']]);
+        $provinces = \App\Models\Geo\Province::factory()->createMany([
+            ['name'=>'Jawa Barat'],
+            ['name'=>'Jawa Timur'],
+            ['name'=>'DI Yogyakarta']
+        ]);
     }
 }

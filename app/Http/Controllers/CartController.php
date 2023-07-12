@@ -80,17 +80,21 @@ class CartController extends Controller
     }
 
     public function updateCart(Request $request) {
-        $validated = $request->validate(['data.qty'=>'required|integer|max:100','data.id'=>'required']);
+        $validated = $request->validate(['data.quantity'=>'required|integer|max:100','data.id'=>'required']);
 
         if($request->action !== "updateQuantity"){
             return $this->fail(400,"Invalid Action");
         }
         
         $id = $validated['data']['id'];
-        $qty = $validated['data']['qty'];
+        $qty = $validated['data']['quantity'];
 
         $cartEntity = CartEntity::with('entity')->findOrFail($id);
-        
+
+        if($cartEntity->cart->id !== $request->user()->activeCart->id){
+            return $this->fail(422,"Update Quantity Fail","Item Id Does not belong to User Active Cart");
+        }
+
         if($qty === 0){
             
             $this->deleteCartItem($cartEntity);
@@ -98,7 +102,7 @@ class CartController extends Controller
             return $this->succeed(200,"Entity Item qty 0, Delete Item");
         }
 
-        $cartEntity->update(['qty'=>$qty]);
+        $cartEntity->update(['quantity'=>$qty]);
         $cartEntity->refresh();
 
         return $this->onSuccess($cartEntity,"Cart Item Updated");

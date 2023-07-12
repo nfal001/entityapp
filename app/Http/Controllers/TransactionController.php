@@ -51,24 +51,24 @@ class TransactionController extends Controller
      */
     public function commit(Request $request)
     {
-
-        // some bug found
+        // get user from request authorization 
         $user = $request->user();
 
-        
         if ($user->activeCart->itemList()->count() <= 0){
             return $this->fail(422,"Empty Cart Item, Please Add One");
         }
         
-        $total_price = collect($user->activeCart->itemList()->get())->sum(function ($item) {
-            return $item->last_price * $item->qty;
+        $total_price = collect($user->activeCart->itemList)->sum(function ($item) {
+            return $item->last_price * $item->quantity;
         });
-
-        DB::beginTransaction();
-
+        
         try {
+            DB::beginTransaction();
 
-            $choosenAddress = $user->choosenAddress()->get();
+            $choosenAddress = $user->choosenAddress;
+
+            if (!$choosenAddress) throw new Exception("Please Choose At least one address");
+
             $choosenAddressId = collect($choosenAddress)->value('id');
             $activeCart = $user->activeCart;
             
@@ -81,9 +81,9 @@ class TransactionController extends Controller
                 [
                     "user_id" => $user->id,
                     "address_id" => $choosenAddressId,
-                    "payment_proof" => "https://loremflickr.com/512/512/meatball", //dummy data, should nullable in next fresh migration
-                    "order_status" => "Pending", //dummy data, doesn't need to fill order_status when checkout action happened
                     "total_price" => $total_price
+                    // "payment_proof" => "https://loremflickr.com/512/512/meatball", //dummy data, should nullable in next fresh migration
+                    // "order_status" => $id, //dummy data, doesn't need to fill order_status when checkout action happened
                 ]
             );
             
@@ -93,7 +93,11 @@ class TransactionController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            return $this->fail(400, "Transaction Fail");
+            $msg = $e->getMessage();
+            $errCode = $e->getCode();
+            
+            // return $e;
+            return $this->fail(400, "Transaction Fail - $errCode","$msg");
         }
 
         $activeCart->refresh();
