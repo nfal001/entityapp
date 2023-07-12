@@ -15,12 +15,14 @@ return new class extends Migration
             $table->foreignId('user_status')->default(1);
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('user_status');
+        });
     }
 };

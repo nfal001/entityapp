@@ -15,12 +15,15 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::table('user_balances', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('user_id');
+        });
         //
     }
 };

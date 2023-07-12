@@ -15,12 +15,15 @@ return new class extends Migration
             $table->foreignUuid('user_id')->nullable()->constrained()->nullOnDelete();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::table('carts', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('user_id');
+        });
         //
     }
 };

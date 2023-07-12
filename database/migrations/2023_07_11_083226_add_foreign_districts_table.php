@@ -16,12 +16,15 @@ return new class extends Migration
             // $table->foreignId('province_id'); // ?
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        //
+        Schema::table('districts', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('city_id');
+            // $table->foreignId('province_id'); // ?
+        });
     }
 };

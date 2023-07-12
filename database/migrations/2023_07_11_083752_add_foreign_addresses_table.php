@@ -18,12 +18,18 @@ return new class extends Migration
             $table->foreignId('province_id')->constrained()->cascadeOnDelete();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::table('addresses', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('user_id');
+            $table->dropConstrainedForeignId('district_id');
+            $table->dropConstrainedForeignId('city_id');
+            $table->dropConstrainedForeignId('province_id');
+        });
         //
     }
 };

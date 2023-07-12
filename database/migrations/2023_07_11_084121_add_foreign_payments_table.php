@@ -13,14 +13,18 @@ return new class extends Migration
     {
         Schema::table('payments', function (Blueprint $table) {
             $table->foreignId('payment_provider_id')->constrained()->nullOnDelete();
+            $table->foreignUuid('user_id')->constrained()->nullOnDelete();
+            $table->foreignUuid('transaction_id')->constrained()->nullOnDelete();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        //
+        Schema::table('payments', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('payment_provider_id');
+        });
     }
 };

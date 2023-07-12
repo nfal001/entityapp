@@ -13,15 +13,19 @@ return new class extends Migration
     {
         Schema::table('cart_entities', function (Blueprint $table) {
             $table->foreignUuid('entity_id')->constrained()->cascadeOnDelete();
-            $table->foreignUuid('cart_id');
+            $table->foreignUuid('cart_id')->nullable()->constrained()->nullOnDelete();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::table('cart_entities', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('entity_id');
+            $table->dropConstrainedForeignId('cart_id');
+        });
         //
     }
 };

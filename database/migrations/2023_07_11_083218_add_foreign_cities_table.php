@@ -15,12 +15,15 @@ return new class extends Migration
             $table->foreignId('province_id')->constrained()->cascadeOnDelete();
         });        
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::table('cities', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('province_id');
+        });        
         //
     }
 };

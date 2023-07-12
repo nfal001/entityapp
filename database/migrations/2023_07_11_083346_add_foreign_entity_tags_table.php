@@ -16,12 +16,16 @@ return new class extends Migration
             $table->foreignId('tag_id')->constrained()->cascadeOnDelete();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::table('entity_tags', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('entity_detail_id');
+            $table->dropConstrainedForeignId('tag_id');
+        });
         //
     }
 };

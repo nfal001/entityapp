@@ -12,17 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('entities', function (Blueprint $table) {
-            $table->foreignId('city_id')->constrained()->nullOnDelete();
-            $table->foreignId('district_id')->constrained()->nullOnDelete();
+            $table->foreignId('city_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('district_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignUuid('user_id')->nullable()->constrained()->nullOnDelete();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::table('entities', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('city_id');
+            $table->dropConstrainedForeignId('district_id');
+            $table->dropConstrainedForeignId('user_id');
+        });
         //
     }
 };
