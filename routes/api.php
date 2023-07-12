@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 require_once 'api/v1/routes.php';
 require __DIR__.'/ajax/admin/routes.php'; 
+
+
 // move this ajax to middleware admin, this pathname need csrf verification, i mean ajax/admin* and ajax/set_entity
-
-
 Route::middleware(['auth:sanctum'])->get('v1/user', function (Request $request) {
     return $request->user();
 });
