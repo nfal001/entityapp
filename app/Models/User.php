@@ -9,6 +9,7 @@ use App\Models\Features\Cart;
 use App\Models\Features\UserInfo;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -62,10 +63,6 @@ class User extends Authenticatable
     public function address() {
         return $this->hasOne(Address::class,"user_id");
     }
-
-    // public function draftActiveCart() {
-    //     return $this->carts()->one()->save()
-    // }
     
     /**
      * List Of Address
@@ -104,14 +101,14 @@ class User extends Authenticatable
     }
 
     /**
-     * Get Carts
+     * Get One Cart
      */
     public function cart() {
         return $this->hasOne(Cart::class);
     }
 
     /**
-     * Get All Carts
+     * Get All Carts, next Time Remove hasOne cart, using ->one() method 
      */
     public function carts() {
         return $this->hasMany(Cart::class);

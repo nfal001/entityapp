@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 class TransactionController extends Controller
 {
     use ApiHelpers;
+
     /**
      * admin get pendingTransaction
      */
@@ -21,7 +22,12 @@ class TransactionController extends Controller
     
     public function adminGetProcessingTransactions()
     {
-        $transactions = Transaction::with('address.district','address.province','address.city')->where('order_status','Pending')->get();
+        $transactions = Transaction::with(
+            'address.district',
+            'address.province',
+            'address.city'
+        )->where('order_status','Pending')->get();
+
         return $this->onSuccess($transactions,"Successfully Fetch Transactions");
     }
 
@@ -42,12 +48,12 @@ class TransactionController extends Controller
     public function userShow(Transaction $transaction) {
 
         $transaction->load('address.district','address.province','address.city','cart.itemList.entity:id,name,price');
-        // $transaction->total_price = rand(12331,132878);
-        
+
         return $this->onSuccess($transaction,"Successfully Fetch Transaction ID: $transaction->id");
     }
+
     /**
-     * From Update
+     *  Commit New Transaction
      */
     public function commit(Request $request)
     {
@@ -71,21 +77,20 @@ class TransactionController extends Controller
 
             $choosenAddressId = collect($choosenAddress)->value('id');
             $activeCart = $user->activeCart;
-            
-            /**
-             * in next update please change it to 
-             * $user->hasOneOrMany(Transaction::class)->create(['something']);
-             * so, it will be make sense
-             */
-            $transactionCart = $activeCart->hasOne(Transaction::class)->create(
-                [
-                    "user_id" => $user->id,
-                    "address_id" => $choosenAddressId,
-                    "total_price" => $total_price
-                    // "payment_proof" => "https://loremflickr.com/512/512/meatball", //dummy data, should nullable in next fresh migration
-                    // "order_status" => $id, //dummy data, doesn't need to fill order_status when checkout action happened
-                ]
-            );
+
+            $transactionCart = $user->transactions()->create([
+                'cart_id' => $activeCart->id,
+                'address_id' => $choosenAddressId,
+                'total_price' => $total_price
+            ]);
+
+            // $transactionCart = $activeCart->hasOne(Transaction::class)->create(
+            //     [
+            //         "user_id" => $user->id,
+            //         "address_id" => $choosenAddressId,
+            //         "total_price" => $total_price
+            //     ]
+            // );
             
             $activeCart->update(['status' => 'saved']);
 
