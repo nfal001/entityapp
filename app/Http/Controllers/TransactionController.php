@@ -75,7 +75,7 @@ class TransactionController extends Controller
 
             if (!$choosenAddress) throw new Exception("Please Choose At least one address");
 
-            $choosenAddressId = collect($choosenAddress)->value('id');
+            $choosenAddressId = $choosenAddress->id;
             $activeCart = $user->activeCart;
 
             $transactionCart = $user->transactions()->create([
