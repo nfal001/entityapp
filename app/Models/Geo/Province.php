@@ -10,6 +10,7 @@ class Province extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+    public $timestamps = FALSE;
 
     public function districts()
     {

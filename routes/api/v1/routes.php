@@ -24,7 +24,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
         
         Route::get('carts',[CartController::class,'userIndex'])->name('carts');
         Route::post('carts',[CartController::class,'userStore'])->name('carts.store');
-        Route::put('carts',[CartController::class,'updateCart'])->name('carts.store');
+        Route::put('carts',[CartController::class,'updateCart'])->name('carts.update');
         // Route::delete('carts',[CartController::class,'store'])->name('carts.destroy');
 
         Route::post('checkout',[TransactionController::class,'commit'])->name('checkout');
@@ -37,15 +37,15 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
         
         Route::get('profile', [UserInfoController::class, 'profile'])->name('user.profile');
         Route::get('addresses', [AddressController::class, 'index'])->name('user.addresses');
-        Route::patch('addresses/{address}/select', [AddressController::class, 'selectAddress'])->name('user.addresses');
+        Route::patch('addresses/{address}/select', [AddressController::class, 'selectAddress'])->name('user.addresses.select');
 
     });
 
     
     Route::prefix('geo')->as('geo.')->group(function () {
-        Route::get('/provinces',[ProvinceController::class,'index'])->name('provinces.all');
-        Route::get('/provinces/{province}/cities',[CityController::class,'index'])->name('provinces.cities.all');
-        Route::get('/provinces/{province}/cities/{city}/districts',[DistrictController::class,'index'])->name('provinces.cities.districts.all');
+        Route::get('provinces',[ProvinceController::class,'index'])->name('provinces.all');
+        Route::get('provinces/{province}/cities',[CityController::class,'index'])->name('provinces.cities.all');
+        Route::get('provinces/{province}/cities/{city}/districts',[DistrictController::class,'index'])->name('provinces.cities.districts.all');
     });
 
     Route::post('users',[UserController::class,'register'])->middleware("guest")->name('users.register');

@@ -9,7 +9,7 @@ class UserStatus extends Model
 {
     use HasFactory;
 
-    // public $timestamps = false;
+    public $timestamps = FALSE;
 
     function users() {
         return $this->hasMany(User::class,'user_status');

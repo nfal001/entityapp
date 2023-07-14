@@ -19,25 +19,28 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('transactions/pending',[TransactionController::class,'getPendingTransactions'])->name('transactions.index.pending');
 
         Route::prefix('geo')->as('geo.')->group(function () { 
-            // provinces > cities() > districts()
 
             // Provinces
+            // apiSingleton
             Route::get('/provinces',[ProvinceController::class,'index'])->name('provinces.all');
             Route::post('/provinces',[ProvinceController::class,'store'])->name('provinces.store');
             Route::put('/provinces/{province}',[ProvinceController::class,'update'])->name('provinces.update');
             Route::delete('/provinces/{province}',[ProvinceController::class,'destroy'])->name('provinces.destroy');
 
             // Cities
+            // apiSingleton
             Route::get('/provinces/{province}/cities',[CityController::class,'index'])->name('provinces.cities.all');
             Route::post('/provinces/{province}/cities',[CityController::class,'store'])->name('provinces.cities.store');
             Route::patch('/provinces/{province}/cities/{city}',[CityController::class,'update'])->name('provinces.cities.update');
             Route::delete('/provinces/{province}/cities/{city}',[CityController::class,'destroy'])->name('provinces.cities.destroy');
             
             // Districts
+            // apiSingleton
             Route::get('/provinces/{province}/cities/{city}/districts',[DistrictController::class,'index'])->name('provinces.cities.districts.all');
             Route::post('/provinces/{province}/cities/{city}/districts',[DistrictController::class,'store'])->name('provinces.cities.districts.store');
             Route::put('/provinces/{province}/cities/{city}/districts/{district}',[DistrictController::class,'update'])->name('provinces.cities.districts.update');
             Route::delete('/provinces/{province}/cities/{city}/districts/{district}',[DistrictController::class,'destroy'])->name('provinces.cities.districts.destroy');
+
         });
     });
 });
