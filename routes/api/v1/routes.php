@@ -50,29 +50,4 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
 
     Route::post('users',[UserController::class,'register'])->middleware("guest")->name('users.register');
 
-    // 'checkout' - from cart -> transaction
-    // '/transactions' C-R
-    // '/transactions/{id_onlyAuthenticatedUser}' R
-    // '/carts' C-R : Create - add new entity into current active cart
-    // '/carts/{id_onlyAuthenticatedUser}' R
-    // '/addresses' C-R-U-D
-    // '/addresses/{id_onlyAuthenticatedUser}' R
-    // '/'
-
-    /**
-     * 
-     * transactions: authorized_responsibleUserAndAdmin
-     * address: authorized_responsibleUserAndAdmin
-     * 
-     * carts: 
-     * insert into active carts - store function
-     * delete item by id from active carts - destroy function
-     * if carts item === 1
-     * carts userID x where cart_transaction_status pending, 
-     * cart_transaction_status [active,pending],
-     * make sure each user has only one pending carts ; 
-     * list item in table entity_cart (queue)
-     * 
-     * carts can only delete 1 item?
-     */
 });
