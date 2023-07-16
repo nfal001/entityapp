@@ -19,13 +19,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('transactions/pending',[TransactionController::class,'getPendingTransactions'])->name('transactions.index.pending');
 
         /**
-         * PaymentProviders Index, name, Created At, Updated At
+         * TODO: PaymentProviders Index, name, Created At, Updated At
          * PaymentProviders Post, name.
-         * PaymentProviders Update, name, Public_key, Secret_key ????
+         * PaymentProviders Update, name, Public_key, Secret_key , issuer_identification ????
+         * PaymentProviders Delete, base, payment_issuer
          */
         Route::apiResource('payment-providers', PaymentProviderController::class);
 
         /**
+         * TODO:
          * Payment Log, update
          */
         Route::apiResource('payments',PaymentController::class);

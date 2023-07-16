@@ -57,7 +57,7 @@ please review and abide by Our [Code of Conduct](#code-of-conduct).
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [dev@ngecode.my.id](mailto:dev@ngecode.my.id). All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within Laravel, please send an e-mail to Abdurrahman Naufal via [dev@ngecode.my.id](mailto:dev@ngecode.my.id). All security vulnerabilities will be promptly addressed.
 
 ## License
 
