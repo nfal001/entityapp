@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->unsignedBigInteger('total_price')->default(0);
+            $table->unsignedBigInteger('gross_amount')->default(0);
             $table->enum('payment_status',['unpaid','paid','refunding','refunded'])->default('unpaid');
             $table->timestamps();
         });

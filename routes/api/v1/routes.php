@@ -15,6 +15,46 @@ use Illuminate\Support\Facades\Route;
 
 // ensure entity already Defined
 Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
+
+    // TODO : Add Rate Limit On Webhook 
+    Route::group(['prefix'=>'webhook'], function () {
+        
+        Route::group(['prefix'=>'payments','as'=>'payments.'],function () {
+
+            /**
+             * * Logic:
+             * ! Add Middleware to Check User-Agent before going to Controller, 
+             * ! if notExist in authorized-payments-ua cache, return 404
+             * 
+             */
+            // TODO: Webhook Handle Payment, 
+            // ignore if pending, 
+            // if expire, delete payment
+            Route::post('notification', [HandlePaymentController::class,'notification'])->name('notification');
+
+            Route::post('recurring', [HandlePaymentController::class,'recurring'])->name('recurring');
+
+            Route::post('unfinished', [HandlePaymentController::class,'unfinished'])->name('unfinished');
+            /**
+             * ! Expectation for Error Response:
+             * {
+             *      redirect_url = "FRONTEND_URL/payment/error?order_id=123213?version=1"
+             * }
+             */
+            Route::post('error', [HandlePaymentController::class,'finish'])->name('error');
+
+            /**
+             * ! Expectation for Finish Response:
+             * {
+             *      redirect_url = "FRONTEND_URL/payment/success?order_id=123213?version=1"
+             * }
+             */
+            Route::get('finish', [HandlePaymentController::class,'finishRedirect'])->name('finish.redirectx'); 
+
+        });
+
+    });
+
     Route::group(["middleware" => "auth:sanctum"], function () {
         Route::get('info', [InfoController::class, 'index'])->name('info');
 
